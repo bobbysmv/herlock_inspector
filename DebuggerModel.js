@@ -239,6 +239,8 @@ WebInspector.DebuggerDispatcher.prototype = {
 
     breakpointResolved: function(breakpointId, sourceID, lineNumber, columnNumber)
     {
-        this._debuggerModel._breakpointResolved(breakpointId, sourceID, lineNumber, columnNumber);
+        //this._debuggerModel._breakpointResolved(breakpointId, sourceID, lineNumber, columnNumber);
+        // SMV 元実装に食い違いが...
+        this._debuggerModel._breakpointResolved(breakpointId, { sourceID:sourceID, lineNumber:lineNumber, columnNumber:columnNumber});
     }
 }

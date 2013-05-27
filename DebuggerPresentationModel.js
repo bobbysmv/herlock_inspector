@@ -445,6 +445,7 @@ WebInspector.DebuggerPresentationModel.prototype = {
         }
     },
 
+    // breakpointの更新処理？
     _breakpointResolved: function(event)
     {
         var debuggerId = event.data.breakpointId;

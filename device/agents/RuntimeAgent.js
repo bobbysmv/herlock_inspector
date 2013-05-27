@@ -112,10 +112,9 @@ RuntimeAgent.prototype.evaluate = function(params, sendResult) {
     });
 };
 
+
 RuntimeAgent.prototype.getProperties = function(params, sendResult) {
     var object = this.objects[params.objectId];
-
-    // lookup
 
     if (helpers.isUndefined(object)) {
         console.error('RuntimeAgent.getProperties: Unknown object');
@@ -123,49 +122,69 @@ RuntimeAgent.prototype.getProperties = function(params, sendResult) {
     }
 
     object = object.value;
-
     var descriptors = getPropertyDescriptors(object, params.ownProperties);
     var len = descriptors.length;
 
-    if (len === 0 &&
-        "arguments" in object) {
-        for (var key in object) {
-            descriptors.push({
-                name: key,
-                value: object[key],
-                writable: false,
-                configurable: false,
-                enumerable: true
-            });
-        }
-    }
+    if ( len === 0 && "arguments" in object)
+        for (var key in object)
+            descriptors.push({ name: key, value: object[key], writable: false, configurable: false, enumerable: true });
 
     for (var i = 0; i < len; ++i) {
         var descriptor = descriptors[i];
-        if ("get" in descriptor) {
-            descriptor.get = this.wrapObject(descriptor.get);
-        }
-
-        if ("set" in descriptor) {
-            descriptor.set = this.wrapObject(descriptor.set);
-        }
-
-        if ("value" in descriptor) {
-            descriptor.value = this.wrapObject(descriptor.value);
-        }
-
-        if (!("configurable" in descriptor)) {
-            descriptor.configurable = false;
-        }
-
-        if (!("enumerable" in descriptor)) {
-            descriptor.enumerable = false;
-        }
+        if ("get" in descriptor) descriptor.get = this.wrapObject(descriptor.get);
+        if ("set" in descriptor) descriptor.set = this.wrapObject(descriptor.set);
+        if ("value" in descriptor) descriptor.value = this.wrapObject(descriptor.value);
+        if ("get" in descriptor && !descriptor.value) descriptor.value = this.wrapObject( object[descriptor.name] );//SMV
+        if (!("configurable" in descriptor)) descriptor.configurable = false;
+        if (!("enumerable" in descriptor)) descriptor.enumerable = false;
     }
 
-    sendResult({
-        result: descriptors
-    });
+    //sendResult({ result: descriptors });
+    // SMV
+    var results = [];
+    for (var i = 0; i < len; ++i) {
+        var desc = descriptors[i];
+        if( desc.name === "_nativejs_private_holder" )continue;
+        results.push({
+            name: desc.name,
+            value:{
+                type: desc.value.type,
+                description: desc.value.description || ""+desc.value.value,
+                hasChildren: desc.value.value instanceof Object ? Object.getOwnPropertyNames(desc.value.value).length :0,
+                objectId: desc.value.objectId || ""
+            }
+        });
+    }
+
+    sendResult({ result: results });
+};
+// 本家とフォーマットが違う。要調整
+RuntimeAgent.prototype.getProperties_BK = function(params, sendResult) {
+    var object = this.objects[params.objectId];
+
+    if (helpers.isUndefined(object)) {
+        console.error('RuntimeAgent.getProperties: Unknown object');
+        return;
+    }
+
+    object = object.value;
+    var descriptors = getPropertyDescriptors(object, params.ownProperties);
+    var len = descriptors.length;
+
+    if ( len === 0 && "arguments" in object)
+        for (var key in object)
+            descriptors.push({ name: key, value: object[key], writable: false, configurable: false, enumerable: true });
+
+    for (var i = 0; i < len; ++i) {
+        var descriptor = descriptors[i];
+        if ("get" in descriptor) descriptor.get = this.wrapObject(descriptor.get);
+        if ("set" in descriptor) descriptor.set = this.wrapObject(descriptor.set);
+        if ("value" in descriptor) descriptor.value = this.wrapObject(descriptor.value);
+        if (!("configurable" in descriptor)) descriptor.configurable = false;
+        if (!("enumerable" in descriptor)) descriptor.enumerable = false;
+    }
+
+    sendResult({ result: descriptors });
 };
 
 RuntimeAgent.prototype.wrapObject = function(object, objectGroup, forceValueType) {

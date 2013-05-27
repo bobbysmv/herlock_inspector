@@ -352,7 +352,7 @@ window.RuntimeAgentCreate;
                     var id = InspectorBackend.registerCallbackAndIssueId( "Runtime.releaseObject", callback );
                     // TODO
                     sendResponse( id, true, {} );
-                    console.error( "call Runtime.releaseObject" );
+                    console.info( "call Runtime.releaseObject" );
                 }
             },
             releaseObjectGroup:{
@@ -360,7 +360,7 @@ window.RuntimeAgentCreate;
                     var id = InspectorBackend.registerCallbackAndIssueId( "Runtime.releaseObjectGroup", callback );
                     // TODO
                     sendResponse( id, true, {} );
-                    console.error( "call Runtime.releaseObjectGroup" );
+                    console.info( "call Runtime.releaseObjectGroup" );
                 }
             }
         });

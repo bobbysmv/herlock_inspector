@@ -65,6 +65,68 @@ WebInspector.DOMStorage.prototype = {
     }
 }
 
+/**  ここから 2013年のソース*/
+
+/**
+ * @constructor
+ * @extends {WebInspector.Object}
+ */
+WebInspector.DOMStorageModel = function()
+{
+    this._storages = {};
+    //InspectorBackend.registerDOMStorageDispatcher(new WebInspector.DOMStorageDispatcher(this));
+    DOMStorageAgent.enable();
+}
+
+WebInspector.DOMStorageModel.Events = {
+    DOMStorageAdded: "DOMStorageAdded",
+    DOMStorageUpdated: "DOMStorageUpdated"
+}
+
+WebInspector.DOMStorageModel.prototype = {
+    /**
+     * @param {WebInspector.DOMStorage} domStorage
+     */
+    _addDOMStorage: function(domStorage)
+    {
+        this._storages[domStorage.id] = domStorage;
+        this.dispatchEventToListeners(WebInspector.DOMStorageModel.Events.DOMStorageAdded, domStorage);
+    },
+
+    /**
+     * @param {DOMStorageAgent.StorageId} storageId
+     */
+    _domStorageUpdated: function(storageId)
+    {
+        this.dispatchEventToListeners(WebInspector.DOMStorageModel.Events.DOMStorageUpdated, this._storages[storageId]);
+    },
+
+    /**
+     * @param {DOMStorageAgent.StorageId} storageId
+     * @return {WebInspector.DOMStorage}
+     */
+    storageForId: function(storageId)
+    {
+        return this._storages[storageId];
+    },
+
+    /**
+     * @return {Array.<WebInspector.DOMStorage>}
+     */
+    storages: function()
+    {
+        var result = [];
+        for (var storageId in this._storages)
+            result.push(this._storages[storageId]);
+        return result;
+    },
+
+    __proto__: WebInspector.Object.prototype
+}
+
+
+/**  ここまで 2013年のソース*/
+
 
 WebInspector.DOMStorageDispatcher = function()
 {

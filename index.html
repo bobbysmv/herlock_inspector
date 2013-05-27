@@ -28,7 +28,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>node inspector</title>
+    <title>inspector</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link rel="stylesheet" type="text/css" href="audits.css">
@@ -162,21 +162,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <script type="text/javascript" src="CookieParser.js"></script>
     <script type="text/javascript" src="Toolbar.js"></script>
     <script type="text/javascript" src="SearchController.js"></script>
-<!--
-    <script type="text/javascript" src="node/Debugger.js"></script>
-    <script type="text/javascript" src="node/DebugSession.js"></script>
-    <script type="text/javascript" src="node/InspectorBackendStub.js"></script>
-    <script type="text/javascript" src="node/InspectorFrontendHostStub.js"></script>
-    <script type="text/javascript" src="node/Overrides.js"></script>
-<!-- -->
+    <!-- SMV -->
     <script type="text/javascript" src="njs/InspectorBackendStub.js"></script>
     <script type="text/javascript" src="njs/InspectorFrontendHostStub.js"></script>
     <script type="text/javascript" src="njs/v8/V8Wrapper.js"></script>
     <script type="text/javascript" src="njs/agents/DebuggerAgent.js"></script>
     <script type="text/javascript" src="njs/agents/RuntimeAgent.js"></script>
     <script type="text/javascript" src="njs/agents/ConsoleAgent.js"></script>
+    <script type="text/javascript" src="njs/agents/DOMStorageAgent.js"></script>
     <script type="text/javascript" src="njs/NativeJSAgentSocket.js"></script>
     <script type="text/javascript" src="njs/overrides.js"></script>
+    <!-- /SMV -->
 </head>
 <body class="attached">
     <div id="toolbar">
@@ -190,7 +186,25 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </div>
     <div id="main">
         <div id="main-panels" spellcheck="false"></div>
-        <div id="main-status-bar" class="status-bar"><div id="anchored-status-bar-items"><button id="dock-status-bar-item" class="status-bar-item"><div class="glyph"></div><div class="glyph shadow"></div></button><button id="console-status-bar-item" class="status-bar-item"><div class="glyph"></div><div class="glyph shadow"></div></button><button id="changes-status-bar-item" class="status-bar-item hidden"></button><div id="counters"><div id="changes-count" class="hidden"></div><div id="error-warning-count" class="hidden"></div></div></div></div>
+        <div id="main-status-bar" class="status-bar">
+            <div id="anchored-status-bar-items">
+                <!--
+                <button id="dock-status-bar-item" class="status-bar-item">
+                    <div class="glyph"></div>
+                    <div class="glyph shadow"></div>
+                </button>
+                -->
+                <button id="console-status-bar-item" class="status-bar-item">
+                    <div class="glyph"></div>
+                    <div class="glyph shadow"></div>
+                </button>
+                <button id="changes-status-bar-item" class="status-bar-item hidden"></button>
+                <div id="counters">
+                    <div id="changes-count" class="hidden"></div>
+                    <div id="error-warning-count" class="hidden"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="drawer">
         <div id="console-view"><div id="console-messages" class="monospace"><div id="console-prompt" spellcheck="false"><br></div></div></div>

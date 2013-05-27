@@ -32,7 +32,7 @@ WebInspector.NetworkManager = function()
 {
     WebInspector.Object.call(this);
     this._dispatcher = new WebInspector.NetworkDispatcher(this);
-    NetworkAgent.enable();
+    //NetworkAgent.enable();
 }
 
 WebInspector.NetworkManager.EventTypes = {
@@ -46,7 +46,7 @@ WebInspector.NetworkManager.EventTypes = {
 WebInspector.NetworkManager.prototype = {
     frontendReused: function()
     {
-        NetworkAgent.enable();
+        //NetworkAgent.enable();
     },
 
     requestContent: function(resource, base64Encode, callback)
@@ -55,7 +55,8 @@ WebInspector.NetworkManager.prototype = {
         {
             callback(!error ? content : null);
         }
-        NetworkAgent.getResourceContent(resource.frameId, resource.url, base64Encode, callbackWrapper);
+        // smv 後にPageAgentへ移行される
+        //NetworkAgent.getResourceContent(resource.frameId, resource.url, base64Encode, callbackWrapper);
     },
 
     inflightResourceForURL: function(url)

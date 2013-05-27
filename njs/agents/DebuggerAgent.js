@@ -221,7 +221,6 @@ window.DebuggerAgentCreate;
         }
 
         function browserConnected() { // TODO find a better name
-            //sendEvent('debuggerWasEnabled');
 
             var args = { arguments:{ includeSource:true, types:4 }};
 
@@ -229,32 +228,24 @@ window.DebuggerAgentCreate;
             v8.request('scripts', args, function (msg) {
 
                 script_url_id_dictionary = {};
-                var scripts = parsedScripts(msg);
+                var scripts = parsedScripts(msg); // dispatch parsed
                 for( var i in scripts )
                     script_url_id_dictionary[scripts[i].name] = scripts[i].id;
-                /* // TODO init breakPoints
+
+                // deviceに保持されたbreakpointを開放
+
+
                 v8.request('listbreakpoints', {},
                     function (msg) {
                         msg.body.breakpoints.forEach(function (bp) {
-                            var data;
-                            if (bp.type === 'scriptId') {
-                                data = {
-                                    sourceID:bp.script_id,
-                                    url:sourceIDs[bp.script_id].url,
-                                    line:bp.line + 1,
-                                    enabled:bp.active,
-                                    condition:bp.condition,
-                                    number:bp.number
-                                };
-                                breakpoints[bp.script_id + ':' + (bp.line + 1)] = data;
-                                sendEvent('restoredBreakpoint', data);
-                            }
+                            // clear breakpoint
+                            v8.request( 'clearbreakpoint', { arguments: { breakpoint:bp.number } }, {} );
                         });
-                        if (!msg.running) {
-                            sendBacktrace();
-                        }
+
+                        sendEvent('debuggerWasEnabled'); // storageに保存されていたbreakpointがrestoreされる
+                        if (!msg.running) sendBacktrace();
                     });
-                    */
+
             });
         }
 
@@ -314,13 +305,16 @@ window.DebuggerAgentCreate;
             },
             enable:{
                 value:function (always) {
-
+                    // TODO main thread停止状態を考慮しdeviceへの問い合わせはしない方向で
+                    /*
                     function callback ( error, result ) {
                         if( result ) this.attach();
                     }
 
                     var id = InspectorBackend.registerCallbackAndIssueId( "Debugger.enable", callback.bind(this) );
                     sock.send( JSON.stringify({ id:id, method:"Debugger.enable" }) );
+                    */
+                    this.attach();
                 }
             },
             disable:{

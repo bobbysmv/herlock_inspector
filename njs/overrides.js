@@ -7,7 +7,7 @@
 // debugger always enabled
 Preferences.debuggerAlwaysEnabled = true;
 // enable LiveEdit
-Preferences.canEditScriptSource = true;
+//Preferences.canEditScriptSource = true;
 // enable heap profiler
 Preferences.heapProfilerPresent = true;
 
@@ -19,8 +19,11 @@ WebInspector._createPanels = function()
     //this.panels.elements = new WebInspector.ElementsPanel();
     //this.panels.network = new WebInspector.NetworkPanel();
     //this.panels.audits = new WebInspector.AuditsPanel();
+    this.panels.resources = new WebInspector.ResourcesPanel();
     this.panels.console = new WebInspector.ConsolePanel();
-    //this.panels.resources = new WebInspector.ResourcesPanel();
+
+
+    this.domStorageModel = new WebInspector.DOMStorageModel();
 };
 
 WebInspector.loaded = function()
@@ -65,6 +68,11 @@ WebInspector.loaded = function()
         njsSock: WebInspector.socket,
         v8: v8
     } );
+
+    DOMStorageAgent = DOMStorageAgentCreate( {
+        njsSock: WebInspector.socket,
+        v8: v8
+    } );
 };
 
 
@@ -93,8 +101,8 @@ WebInspector.doLoadedDone = function()
     this.drawer = new WebInspector.Drawer();
     this.console = new WebInspector.ConsoleView(this.drawer);
     this.drawer.visibleView = this.console;
-    //this.networkManager = new WebInspector.NetworkManager();
-    //this.resourceTreeModel = new WebInspector.ResourceTreeModel();
+    this.networkManager = new WebInspector.NetworkManager();
+    this.resourceTreeModel = new WebInspector.ResourceTreeModel();
     //this.domAgent = new WebInspector.DOMAgent();
 
     InspectorBackend.registerDomainDispatcher("Inspector", this);
@@ -144,6 +152,7 @@ WebInspector.doLoadedDone = function()
     document.addEventListener("copy", this.documentCopy.bind(this), true);
     document.addEventListener("contextmenu", this.contextMenuEventFired.bind(this), true);
 
+    /*
     var dockToggleButton = document.getElementById("dock-status-bar-item");
     dockToggleButton.addEventListener("click", this.toggleAttach.bind(this), false);
 
@@ -151,6 +160,7 @@ WebInspector.doLoadedDone = function()
         dockToggleButton.title = WebInspector.UIString("Undock into separate window.");
     else
         dockToggleButton.title = WebInspector.UIString("Dock to main window.");
+    */
 
     var errorWarningCount = document.getElementById("error-warning-count");
     errorWarningCount.addEventListener("click", this.showConsole.bind(this), false);

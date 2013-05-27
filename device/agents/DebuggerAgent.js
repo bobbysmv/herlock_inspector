@@ -15,7 +15,7 @@ function DebuggerAgent( notify ) {
         sendResult( {result: this._enabled} );
         if( !this._enabled ) return;
 
-        this.notify( { method: "Debugger.debuggerWasEnabled", param: {} });
+        //this.notify( { method: "Debugger.debuggerWasEnabled", param: {} });
     };
 
     this.disable = function(params, sendResult) {

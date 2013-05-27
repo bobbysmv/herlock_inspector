@@ -91,30 +91,30 @@ InspectorBackend.registerCommand("Console.getProperties", [
 
 
 // Network.
-/*
-InspectorBackend.registerNetworkDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Network");
-InspectorBackend.registerEvent("Network.requestWillBeSent", ["requestId", "frameId", "loaderId", "documentURL", "request", "timestamp", "initiator", "stackTrace", "redirectResponse"]);
-InspectorBackend.registerEvent("Network.requestServedFromCache", ["requestId"]);
-InspectorBackend.registerEvent("Network.responseReceived", ["requestId", "frameId", "loaderId", "timestamp", "type", "response"]);
-InspectorBackend.registerEvent("Network.dataReceived", ["requestId", "timestamp", "dataLength", "encodedDataLength"]);
-InspectorBackend.registerEvent("Network.loadingFinished", ["requestId", "timestamp"]);
-InspectorBackend.registerEvent("Network.loadingFailed", ["requestId", "timestamp", "errorText", "canceled"]);
-InspectorBackend.registerEvent("Network.requestServedFromMemoryCache", ["requestId", "frameId", "loaderId", "documentURL", "timestamp", "initiator", "resource"]);
-InspectorBackend.registerEvent("Network.webSocketWillSendHandshakeRequest", ["requestId", "timestamp", "request"]);
-InspectorBackend.registerEvent("Network.webSocketHandshakeResponseReceived", ["requestId", "timestamp", "response"]);
-InspectorBackend.registerEvent("Network.webSocketCreated", ["requestId", "url"]);
-InspectorBackend.registerEvent("Network.webSocketClosed", ["requestId", "timestamp"]);
+
+//InspectorBackend.registerNetworkDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Network");
+//InspectorBackend.registerEvent("Network.requestWillBeSent", ["requestId", "frameId", "loaderId", "documentURL", "request", "timestamp", "initiator", "stackTrace", "redirectResponse"]);
+//InspectorBackend.registerEvent("Network.requestServedFromCache", ["requestId"]);
+//InspectorBackend.registerEvent("Network.responseReceived", ["requestId", "frameId", "loaderId", "timestamp", "type", "response"]);
+//InspectorBackend.registerEvent("Network.dataReceived", ["requestId", "timestamp", "dataLength", "encodedDataLength"]);
+//InspectorBackend.registerEvent("Network.loadingFinished", ["requestId", "timestamp"]);
+//InspectorBackend.registerEvent("Network.loadingFailed", ["requestId", "timestamp", "errorText", "canceled"]);
+//InspectorBackend.registerEvent("Network.requestServedFromMemoryCache", ["requestId", "frameId", "loaderId", "documentURL", "timestamp", "initiator", "resource"]);
+//InspectorBackend.registerEvent("Network.webSocketWillSendHandshakeRequest", ["requestId", "timestamp", "request"]);
+//InspectorBackend.registerEvent("Network.webSocketHandshakeResponseReceived", ["requestId", "timestamp", "response"]);
+//InspectorBackend.registerEvent("Network.webSocketCreated", ["requestId", "url"]);
+//InspectorBackend.registerEvent("Network.webSocketClosed", ["requestId", "timestamp"]);
 InspectorBackend.registerCommand("Network.enable", [], []);
 InspectorBackend.registerCommand("Network.disable", [], []);
-InspectorBackend.registerCommand("Network.setUserAgentOverride", [{"name": "userAgent", "type": "string", "optional": false}], []);
-InspectorBackend.registerCommand("Network.setExtraHTTPHeaders", [{"name": "headers", "type": "object", "optional": false}], []);
-InspectorBackend.registerCommand("Network.getResponseBody", [{"name": "requestId", "type": "string", "optional": false}], ["body", "base64Encoded"]);
-InspectorBackend.registerCommand("Network.canClearBrowserCache", [], ["result"]);
-InspectorBackend.registerCommand("Network.clearBrowserCache", [], []);
-InspectorBackend.registerCommand("Network.canClearBrowserCookies", [], ["result"]);
-InspectorBackend.registerCommand("Network.clearBrowserCookies", [], []);
-InspectorBackend.registerCommand("Network.setCacheDisabled", [{"name": "cacheDisabled", "type": "boolean", "optional": false}], []);
-*/
+//InspectorBackend.registerCommand("Network.setUserAgentOverride", [{"name": "userAgent", "type": "string", "optional": false}], []);
+//InspectorBackend.registerCommand("Network.setExtraHTTPHeaders", [{"name": "headers", "type": "object", "optional": false}], []);
+//InspectorBackend.registerCommand("Network.getResponseBody", [{"name": "requestId", "type": "string", "optional": false}], ["body", "base64Encoded"]);
+//InspectorBackend.registerCommand("Network.canClearBrowserCache", [], ["result"]);
+//InspectorBackend.registerCommand("Network.clearBrowserCache", [], []);
+//InspectorBackend.registerCommand("Network.canClearBrowserCookies", [], ["result"]);
+//InspectorBackend.registerCommand("Network.clearBrowserCookies", [], []);
+//InspectorBackend.registerCommand("Network.setCacheDisabled", [{"name": "cacheDisabled", "type": "boolean", "optional": false}], []);
+
 
 // Database.
 //InspectorBackend.registerDatabaseDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Database");
@@ -243,7 +243,8 @@ InspectorBackend.registerEvent("Debugger.debuggerWasEnabled", []);
 InspectorBackend.registerEvent("Debugger.globalObjectCleared", []);
 InspectorBackend.registerEvent("Debugger.scriptParsed", ["scriptId", "url", "startLine", "startColumn", "endLine", "endColumn", "isContentScript", "sourceMapURL"]);
 InspectorBackend.registerEvent("Debugger.scriptFailedToParse", ["url", "scriptSource", "startLine", "errorLine", "errorMessage"]);
-InspectorBackend.registerEvent("Debugger.breakpointResolved", ["breakpointId", "location"]);
+//InspectorBackend.registerEvent("Debugger.breakpointResolved", ["breakpointId", "location"]);
+InspectorBackend.registerEvent("Debugger.breakpointResolved", ["breakpointId", "sourceID", "lineNumber", "columnNumber"]);
 InspectorBackend.registerEvent("Debugger.paused", ["details"]);
 InspectorBackend.registerEvent("Debugger.resumed", []);
 InspectorBackend.registerCommand("Debugger.causesRecompilation", [], ["result"]);

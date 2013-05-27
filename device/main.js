@@ -11,12 +11,13 @@
 
     function notify( notification, flg ) {
         var msg = JSON.stringify(notification);
-        if(flg!==false) console.log( "notify " + msg );
+        //if(flg!==false) console.log( "notify " + msg );
         app.nativeLog("inspector.send notify "+(notification.method?notification.method:""));
         inspector.send( msg );
     }
 
     var ROOT = "http://192.168.2.1:8080/";
+    //var ROOT = "http://172.20.1.48:8080/";
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
     var V8ROOT = ROOT+"device/v8/";
@@ -34,7 +35,8 @@
         AGENTROOT+ "WorkerAgent.js",
         AGENTROOT+ "RuntimeAgent.js",
         AGENTROOT+ "ConsoleAgent.js",
-        AGENTROOT+ "ProfilerAgent.js"
+        AGENTROOT+ "ProfilerAgent.js",
+        AGENTROOT+ "DOMStorageAgent.js"
     ).onload = function(){};
 
 

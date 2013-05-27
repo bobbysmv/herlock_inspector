@@ -31,12 +31,12 @@
 
 WebInspector.ResourceTreeModel = function(networkManager)
 {
+
     WebInspector.networkManager.addEventListener(WebInspector.NetworkManager.EventTypes.ResourceStarted, this._onResourceStarted, this);
     WebInspector.networkManager.addEventListener(WebInspector.NetworkManager.EventTypes.ResourceUpdated, this._onResourceUpdated, this);
     WebInspector.networkManager.addEventListener(WebInspector.NetworkManager.EventTypes.ResourceFinished, this._onResourceUpdated, this);
     WebInspector.networkManager.addEventListener(WebInspector.NetworkManager.EventTypes.FrameDetached, this._onFrameDetachedFromParent, this);
     WebInspector.networkManager.addEventListener(WebInspector.NetworkManager.EventTypes.FrameCommittedLoad, this._onCommitLoad, this);
-
     this.frontendReused();
 }
 
@@ -54,7 +54,7 @@ WebInspector.ResourceTreeModel.prototype = {
         this._resourcesByURL = {};
         this._resourcesByFrameId = {};
         this._subframes = {};
-        NetworkAgent.getCachedResources(this._processCachedResources.bind(this));
+        //NetworkAgent.getCachedResources(this._processCachedResources.bind(this));
     },
 
     _processCachedResources: function(error, mainFramePayload)

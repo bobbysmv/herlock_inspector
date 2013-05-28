@@ -152,7 +152,7 @@ window.RuntimeAgentCreate;
         function sendEvent(name, data) {
             data = data || {};
             if (sock) {
-                sock.onmessage({
+                sock.onAgentMessage({
                     data: JSON.stringify({
                         method: "Debugger."+name,
                         params: data
@@ -165,7 +165,7 @@ window.RuntimeAgentCreate;
             data = data || {};
             if (sock) {
                 // TODO
-                sock.onmessage({
+                sock.onAgentMessage({
                     data: JSON.stringify({
                         id:id,
                         result: data
@@ -175,69 +175,14 @@ window.RuntimeAgentCreate;
         }
 
         return Object.create( events.EventEmitter.prototype, {
-            attach:{
-                value:function () {
-                    var self = this;
-
-                    // v8 events
-                    v8.on('break', breakEvent);
-                    v8.on('close', function () {
-                        //TODO determine proper close behavior
-                        v8 = {
-                            request:function () {
-                                console.error('debugger not sockected');
-                            }
-                        };
-                        sendEvent('debuggerWasDisabled');
-                        self.close();
-                    });
-                    //
-                    v8.on('connect', function () { browserConnected(); });
-                    if( v8.connected ) setTimeout( browserConnected,0 );
-                    //
-                    v8.on('exception', function (msg) { breakEvent(msg); });
-                    //
-                    v8.on('error', function (e) {
-                        sendEvent('showPanel', { name:'console' });
-                        var err = e.toString(), data;
-                        if (err.match(/ECONNREFUSED/)) {
-                            err += '\nIs node running with --debug port ' + debuggerPort + '?';
-                        }
-                        data = {
-                            messageObj:{
-                                source:3,
-                                type:0,
-                                level:3,
-                                line:0,
-                                url:'',
-                                groupLevel:7,
-                                repeatCount:1,
-                                message:err
-                            }
-                        };
-                        sendEvent('addConsoleMessage', data);
-                    });
-                }
-            },
-            close:{
-                value:function () {
-                    /*
-                     if (v8 && v8.connected) v8.close();
-                     */
-                    this.emit('close');
-                }
-            },
             enable:{
-                value:function (always) {
-                    this.attach();
-
+                value:function () {
+                    // TODO
                 }
             },
             disable:{
                 value:function (always) {
-                    /*
-                     if (v8 && v8.connected) v8.close();
-                     */
+                    // TODO
                 }
             },
             populateScriptObjects:{

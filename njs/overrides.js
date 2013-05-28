@@ -28,8 +28,8 @@ WebInspector._createPanels = function()
 
 WebInspector.loaded = function()
 {
-    //InspectorBackend.dumpInspectorProtocolMessages = true;
-    //InspectorBackend.dumpV8ProtocolMessages = true;
+    InspectorBackend.dumpInspectorProtocolMessages = true;
+    InspectorBackend.dumpV8ProtocolMessages = true;
     //InspectorBackend.dumpInspectorTimeStats=true;
 
     var host = "192.168.2.2";//
@@ -37,43 +37,28 @@ WebInspector.loaded = function()
     if ("host" in WebInspector.queryParamsObject) host = WebInspector.queryParamsObject.host;
     if ("port" in WebInspector.queryParamsObject) port = parseInt( WebInspector.queryParamsObject.port );
 
-    WebInspector.socket = new NativeJSAgentSocket( host, port );//{};//new WebSocket(ws);
-    WebInspector.socket.onmessage = function(e) {
-        InspectorBackend.dispatch( e.data );
-    }
-    WebInspector.socket.onerror = function(error) { console.error(error); }
-    WebInspector.socket.onopen = function() {
+    // TODO 接続待ち
+    var njsSocket = WebInspector.socket = new NativeJSAgentSocket( host, port )
+    njsSocket.on("agentMessage", function(e) { InspectorBackend.dispatch( e.data ); });
+    njsSocket.on("error", function(error) { console.error(error); });
+    njsSocket.on("open", function() {
         InspectorFrontendHost.sendMessageToBackend = WebInspector.socket.send.bind(WebInspector.socket);
-        //InspectorFrontendHost.loaded = WebInspector.socket.send.bind(WebInspector.socket, "loaded");
         WebInspector.doLoadedDone();
-    }
-    WebInspector.socket.onclose = function() {
+    });
+    njsSocket.on("close", function() {
+        // TODO とりあえずreload
+        location.reload();
         /*
         if (!WebInspector.socket._detachReason)
             (new WebInspector.RemoteDebuggingTerminatedScreen("websocket_closed")).showModal();
             */
-    }
+    });
 
-    var v8 = new V8Wrapper( WebInspector.socket.webSocket );
-    DebuggerAgent = DebuggerAgentCreate( {
-        njsSock: WebInspector.socket,
-        v8: v8
-    } );
-
-    RuntimeAgent = RuntimeAgentCreate( {
-        njsSock: WebInspector.socket,
-        v8: v8
-    } );
-
-    ConsoleAgent = ConsoleAgentCreate( {
-        njsSock: WebInspector.socket,
-        v8: v8
-    } );
-
-    DOMStorageAgent = DOMStorageAgentCreate( {
-        njsSock: WebInspector.socket,
-        v8: v8
-    } );
+    var v8 = new V8Wrapper( njsSocket );
+    DebuggerAgent = DebuggerAgentCreate( { njsSock: njsSocket, v8: v8 } );
+    RuntimeAgent = RuntimeAgentCreate( { njsSock: njsSocket, v8: v8 } );
+    ConsoleAgent = ConsoleAgentCreate( { njsSock: njsSocket, v8: v8 } );
+    DOMStorageAgent = DOMStorageAgentCreate( { njsSock: njsSocket, v8: v8 } );
 };
 
 
@@ -189,7 +174,7 @@ WebInspector.doLoadedDone = function()
 
 /* custom event */
 WebInspector.reload = function() {
-    setTimeout( function(){ location.reload(); }, 1500 );
+    setTimeout( function(){ location.reload(); }, 3000 );
 };
 
 

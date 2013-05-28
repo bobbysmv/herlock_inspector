@@ -57,11 +57,11 @@ window.ConsoleAgentCreate;
 
 
         function sendEvent(name, data) {
-            sock.onmessage({ data: JSON.stringify( { method: "Console."+name, params: data||{} } ) });
+            sock.onAgentMessage({ data: JSON.stringify( { method: "Console."+name, params: data||{} } ) });
         }
 
         function sendResponse(id, success, data) {
-            sock.onmessage({ data: JSON.stringify({ id:id, result: data||{} }) });
+            sock.onAgentMessage({ data: JSON.stringify({ id:id, result: data||{} }) });
         }
 
         // Notifications

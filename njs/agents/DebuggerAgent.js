@@ -198,7 +198,7 @@ window.DebuggerAgentCreate;
         function sendEvent(name, data) {
             data = data || {};
             if (sock) {
-                sock.onmessage({
+                sock.onAgentMessage({
                     data: JSON.stringify({
                         method: "Debugger."+name,
                         params: data
@@ -211,7 +211,7 @@ window.DebuggerAgentCreate;
             data = data || {};
             if (sock) {
                 // TODO
-                sock.onmessage({
+                sock.onAgentMessage({
                     data: JSON.stringify({
                         id:id,
                         result: data
@@ -258,9 +258,9 @@ window.DebuggerAgentCreate;
                     v8.on('break', breakEvent);
                     v8.on('close', function () {
                         //TODO determine proper close behavior
-                        v8 = { request:function () { console.error('debugger not sockected'); } };
-                        sendEvent('debuggerWasDisabled');
-                        self.close();
+                        //v8 = { request:function () { console.error('debugger not sockected'); } };
+                        //sendEvent('debuggerWasDisabled');
+                        //self.close();
                     });
 
                     //

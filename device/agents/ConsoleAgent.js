@@ -55,7 +55,7 @@ function ConsoleAgent( notify ) {
         if(origin) origin(err);
 
         //
-        for( var k in err ) console.log( "  "+k+": "+err[k] );
+        //for( var k in err ) console.log( "  "+k+": "+err[k] );
 
         var message = null;
 

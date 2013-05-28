@@ -1,5 +1,7 @@
 (function(){
 
+    inspector.start();
+
     var Loader = function(){
         var len = arguments.length,c= 0,self=this;
         this.cnt=function(){ c++;if(c>=len) this.onload() };
@@ -18,6 +20,7 @@
 
     var ROOT = "http://192.168.2.1:8080/";
     //var ROOT = "http://172.20.1.48:8080/";
+    //var ROOT = "http://herlock.nb.sonicmoov.net/inspector/"
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
     var V8ROOT = ROOT+"device/v8/";

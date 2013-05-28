@@ -108,13 +108,13 @@ WebInspector.ConsoleView.prototype = {
             messageAdded: function(payload)
             {
                 var consoleMessage = new WebInspector.ConsoleMessage(
-                    payload.source,
+                    payload.source,//
                     payload.type,
-                    payload.level,
+                    payload.level,//
                     payload.line,
                     payload.url,
                     payload.repeatCount,
-                    payload.text,
+                    payload.text,//
                     payload.parameters,
                     payload.stackTrace,
                     payload.networkIdentifier);

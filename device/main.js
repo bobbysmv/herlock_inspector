@@ -40,6 +40,12 @@
     ).onload = function(){};
 
 
+    // ブラウザにリロードを促す
+    location.onreload = function(){
+        notify( { method:"Inspector.reload", params:{} } );
+    };
+
+
     var v8Client = null;
 
     var agents = {};

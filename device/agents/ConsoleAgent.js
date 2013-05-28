@@ -1,4 +1,7 @@
-
+/**
+ * @deprecated 全部文字列化
+ * @return {String}
+ */
 function formatedString(  ) {
     var r = "";
     var len = arguments.length;
@@ -26,7 +29,7 @@ function ConsoleAgent( notify ) {
                     message: {
                         text: formatedString.apply(self,arguments),
                         level: level == 'warn' ? 'warning' : level,
-                        source: 'console-api'
+                        source: 'javascript'
                     }
                 }
             };
@@ -45,6 +48,56 @@ function ConsoleAgent( notify ) {
             notify(message,false);
         } );
     });
+
+    //
+    var origin = window.onUncaughtError || null;
+    onUncaughtError = function( err ) {
+        if(origin) origin(err);
+
+        //
+        for( var k in err ) console.log( "  "+k+": "+err[k] );
+
+        var message = null;
+
+        if( app.isANDROID ) {
+            message = {
+                method: 'Console.messageAdded',
+                params: {
+                    message: {
+                        type: "uncaughtException",
+                        text: err.message,//formatedString(err),
+                        level: "error",
+                        line: null,//err.line,
+                        source: "javascript",
+                        stackTrace: err.__stacktrace
+                    }
+                }
+            };
+        }
+        if( app.isIOS ) {
+            message = {
+                method: 'Console.messageAdded',
+                params: {
+                    message: {
+                        type: "uncaughtException",
+                        text: err.message,//formatedString(err),
+                        level: "error",
+                        line: err.line,
+                        source: "javascript",
+                        stackTrace: [
+                            { lineNumber:err.line, columnNumber:null, url:err.sourceURL, functionName:null }
+                        ]
+                    }
+                }
+            };
+        }
+
+        //TODO save messages when this agent is disabled.
+        self.messages.push(message);
+
+        notify(message,false);
+
+    };
 
     //
     this.objects = {};

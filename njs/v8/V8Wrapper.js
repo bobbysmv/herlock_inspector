@@ -96,14 +96,14 @@
             Object.keys(params).forEach( function(key) { msg[key] = params[key]; });
 
         var msg = "v8_" + JSON.stringify( msg );
-        console.log( "V8.request " + msg );
+        if(InspectorBackend.dumpV8ProtocolMessages)console.log( "V8.request " + msg );
         this._conn.send( msg );
     };
 
     V8Wrapper.prototype.close = function() { /*this._conn.end();*/ };
 
     V8Wrapper.prototype._parse = function ( message ) {
-        console.log( "V8.response " + message );
+        if(InspectorBackend.dumpV8ProtocolMessages)console.log( "V8.response " + message );
         var obj = JSON.parse( message );
 
         if ( obj.type === 'response' && obj.request_seq > 0 ) {

@@ -14,6 +14,8 @@ InspectorBackend.registerEvent("Inspector.didDestroyWorker", ["id"]);
 InspectorBackend.registerCommand("Inspector.enable", [], []);
 InspectorBackend.registerCommand("Inspector.disable", [], []);
 
+InspectorBackend.registerEvent("Inspector.reload", []);
+
 // Memory.
 //InspectorBackend.registerMemoryDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Memory");
 InspectorBackend.registerCommand("Memory.getDOMNodeCount", [], ["domGroups", "strings"]);

@@ -28,7 +28,8 @@ WebInspector._createPanels = function()
 
 WebInspector.loaded = function()
 {
-    InspectorBackend.dumpInspectorProtocolMessages = true;
+    //InspectorBackend.dumpInspectorProtocolMessages = true;
+    //InspectorBackend.dumpV8ProtocolMessages = true;
     //InspectorBackend.dumpInspectorTimeStats=true;
 
     var host = "192.168.2.2";//
@@ -185,6 +186,11 @@ WebInspector.doLoadedDone = function()
     CSSAgent.getSupportedCSSProperties(propertyNamesCallback);
     */
 }
+
+/* custom event */
+WebInspector.reload = function() {
+    setTimeout( function(){ location.reload(); }, 1500 );
+};
 
 
 WebInspector.resourceForURL = function(url) {

@@ -551,8 +551,9 @@ WebInspector.HeapGraph.prototype = {
             if (!r.usedHeapSize)
                 return;
              var x = Math.round((r.endTime - minTime) * xFactor);
-             var y = Math.round(r.usedHeapSize * yFactor);
-             histogram[x] = Math.max(histogram[x] || 0, y);
+             //var y = Math.round(r.usedHeapSize * yFactor);
+            var y = Math.round( r.usedHeapSize * (height / r.totalHeapSize) );
+            histogram[x] = Math.max(histogram[x] || 0, y);
         });
 
         var ctx = this._canvas.getContext("2d");
@@ -588,7 +589,10 @@ WebInspector.HeapGraph.prototype = {
         ctx.fill();
         ctx.closePath();
 
-        this._maxHeapSizeLabel.textContent = Number.bytesToString(maxTotalHeapSize);
+        //this._maxHeapSizeLabel.textContent = Number.bytesToString(maxTotalHeapSize);
+
+        var rec = records[records.length-1];
+        this._maxHeapSizeLabel.textContent = ""+Math.round(100* rec.usedHeapSize / rec.totalHeapSize )+"%";
     },
 
     _clear: function(ctx) {

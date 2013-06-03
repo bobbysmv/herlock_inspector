@@ -193,6 +193,9 @@ WebInspector.TimelinePanel.prototype = {
             recordStyles[recordTypes.MarkDOMContent] = { title: WebInspector.UIString("DOMContent event"), category: this.categories.scripting };
             recordStyles[recordTypes.MarkLoad] = { title: WebInspector.UIString("Load event"), category: this.categories.scripting };
             recordStyles[recordTypes.ScheduleResourceRequest] = { title: WebInspector.UIString("Schedule Request"), category: this.categories.loading };
+            // SMV
+            recordStyles[recordTypes.Memory] = { title: WebInspector.UIString("Memory"), category: this.categories.scripting };
+            recordStyles[recordTypes.Custom] = { title: WebInspector.UIString("Custom"), category: this.categories.scripting };
             this._recordStylesArray = recordStyles;
         }
         return this._recordStylesArray;

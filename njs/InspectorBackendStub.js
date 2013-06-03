@@ -102,10 +102,12 @@ InspectorBackend.registerCommand("Console.getProperties", [
 //InspectorBackend.registerEvent("Network.loadingFinished", ["requestId", "timestamp"]);
 //InspectorBackend.registerEvent("Network.loadingFailed", ["requestId", "timestamp", "errorText", "canceled"]);
 //InspectorBackend.registerEvent("Network.requestServedFromMemoryCache", ["requestId", "frameId", "loaderId", "documentURL", "timestamp", "initiator", "resource"]);
+
 //InspectorBackend.registerEvent("Network.webSocketWillSendHandshakeRequest", ["requestId", "timestamp", "request"]);
 //InspectorBackend.registerEvent("Network.webSocketHandshakeResponseReceived", ["requestId", "timestamp", "response"]);
 //InspectorBackend.registerEvent("Network.webSocketCreated", ["requestId", "url"]);
 //InspectorBackend.registerEvent("Network.webSocketClosed", ["requestId", "timestamp"]);
+
 InspectorBackend.registerCommand("Network.enable", [], []);
 InspectorBackend.registerCommand("Network.disable", [], []);
 //InspectorBackend.registerCommand("Network.setUserAgentOverride", [{"name": "userAgent", "type": "string", "optional": false}], []);
@@ -120,25 +122,25 @@ InspectorBackend.registerCommand("Network.disable", [], []);
 
 // Database.
 //InspectorBackend.registerDatabaseDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Database");
-InspectorBackend.registerEvent("Database.addDatabase", ["database"]);
-InspectorBackend.registerEvent("Database.sqlTransactionSucceeded", ["transactionId", "columnNames", "values"]);
-InspectorBackend.registerEvent("Database.sqlTransactionFailed", ["transactionId", "sqlError"]);
-InspectorBackend.registerCommand("Database.enable", [], []);
-InspectorBackend.registerCommand("Database.disable", [], []);
-InspectorBackend.registerCommand("Database.getDatabaseTableNames", [{"name": "databaseId", "type": "number", "optional": false}], ["tableNames"]);
-InspectorBackend.registerCommand("Database.executeSQL", [{"name": "databaseId", "type": "number", "optional": false}, {"name": "query", "type": "string", "optional": false}], ["success", "transactionId"]);
+//InspectorBackend.registerEvent("Database.addDatabase", ["database"]);
+//InspectorBackend.registerEvent("Database.sqlTransactionSucceeded", ["transactionId", "columnNames", "values"]);
+//InspectorBackend.registerEvent("Database.sqlTransactionFailed", ["transactionId", "sqlError"]);
+//InspectorBackend.registerCommand("Database.enable", [], []);
+//InspectorBackend.registerCommand("Database.disable", [], []);
+//InspectorBackend.registerCommand("Database.getDatabaseTableNames", [{"name": "databaseId", "type": "number", "optional": false}], ["tableNames"]);
+//InspectorBackend.registerCommand("Database.executeSQL", [{"name": "databaseId", "type": "number", "optional": false}, {"name": "query", "type": "string", "optional": false}], ["success", "transactionId"]);
 
 // IndexedDB.
 //InspectorBackend.registerIndexedDBDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "IndexedDB");
-InspectorBackend.registerEvent("IndexedDB.databaseNamesLoaded", ["requestId", "securityOriginWithDatabaseNames"]);
-InspectorBackend.registerEvent("IndexedDB.databaseLoaded", ["requestId", "databaseWithObjectStores"]);
-InspectorBackend.registerEvent("IndexedDB.objectStoreDataLoaded", ["requestId", "objectStoreDataEntries", "hasMore"]);
-InspectorBackend.registerEvent("IndexedDB.indexDataLoaded", ["requestId", "indexDataEntries", "hasMore"]);
-InspectorBackend.registerCommand("IndexedDB.enable", [], []);
-InspectorBackend.registerCommand("IndexedDB.disable", [], []);
-InspectorBackend.registerCommand("IndexedDB.requestDatabaseNamesForFrame", [{"name": "requestId", "type": "number", "optional": false}, {"name": "frameId", "type": "string", "optional": false}], []);
-InspectorBackend.registerCommand("IndexedDB.requestDatabase", [{"name": "requestId", "type": "number", "optional": false}, {"name": "frameId", "type": "string", "optional": false}, {"name": "databaseName", "type": "string", "optional": false}], []);
-InspectorBackend.registerCommand("IndexedDB.requestData", [{"name": "requestId", "type": "number", "optional": false}, {"name": "frameId", "type": "string", "optional": false}, {"name": "databaseName", "type": "string", "optional": false}, {"name": "objectStoreName", "type": "string", "optional": false}, {"name": "indexName", "type": "string", "optional": false}, {"name": "skipCount", "type": "number", "optional": false}, {"name": "pageSize", "type": "number", "optional": false}, {"name": "keyRange", "type": "object", "optional": true}], []);
+//InspectorBackend.registerEvent("IndexedDB.databaseNamesLoaded", ["requestId", "securityOriginWithDatabaseNames"]);
+//InspectorBackend.registerEvent("IndexedDB.databaseLoaded", ["requestId", "databaseWithObjectStores"]);
+//InspectorBackend.registerEvent("IndexedDB.objectStoreDataLoaded", ["requestId", "objectStoreDataEntries", "hasMore"]);
+//InspectorBackend.registerEvent("IndexedDB.indexDataLoaded", ["requestId", "indexDataEntries", "hasMore"]);
+//InspectorBackend.registerCommand("IndexedDB.enable", [], []);
+//InspectorBackend.registerCommand("IndexedDB.disable", [], []);
+//InspectorBackend.registerCommand("IndexedDB.requestDatabaseNamesForFrame", [{"name": "requestId", "type": "number", "optional": false}, {"name": "frameId", "type": "string", "optional": false}], []);
+//InspectorBackend.registerCommand("IndexedDB.requestDatabase", [{"name": "requestId", "type": "number", "optional": false}, {"name": "frameId", "type": "string", "optional": false}, {"name": "databaseName", "type": "string", "optional": false}], []);
+//InspectorBackend.registerCommand("IndexedDB.requestData", [{"name": "requestId", "type": "number", "optional": false}, {"name": "frameId", "type": "string", "optional": false}, {"name": "databaseName", "type": "string", "optional": false}, {"name": "objectStoreName", "type": "string", "optional": false}, {"name": "indexName", "type": "string", "optional": false}, {"name": "skipCount", "type": "number", "optional": false}, {"name": "pageSize", "type": "number", "optional": false}, {"name": "keyRange", "type": "object", "optional": true}], []);
 
 // DOMStorage.
 //InspectorBackend.registerDOMStorageDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "DOMStorage");
@@ -152,17 +154,19 @@ InspectorBackend.registerCommand("DOMStorage.removeDOMStorageItem", [{"name": "s
 
 // ApplicationCache.
 //InspectorBackend.registerApplicationCacheDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "ApplicationCache");
-InspectorBackend.registerEvent("ApplicationCache.applicationCacheStatusUpdated", ["frameId", "manifestURL", "status"]);
-InspectorBackend.registerEvent("ApplicationCache.networkStateUpdated", ["isNowOnline"]);
-InspectorBackend.registerCommand("ApplicationCache.getFramesWithManifests", [], ["frameIds"]);
-InspectorBackend.registerCommand("ApplicationCache.enable", [], []);
-InspectorBackend.registerCommand("ApplicationCache.getManifestForFrame", [{"name": "frameId", "type": "string", "optional": false}], ["manifestURL"]);
-InspectorBackend.registerCommand("ApplicationCache.getApplicationCacheForFrame", [{"name": "frameId", "type": "string", "optional": false}], ["applicationCache"]);
+//InspectorBackend.registerEvent("ApplicationCache.applicationCacheStatusUpdated", ["frameId", "manifestURL", "status"]);
+//InspectorBackend.registerEvent("ApplicationCache.networkStateUpdated", ["isNowOnline"]);
+//InspectorBackend.registerCommand("ApplicationCache.getFramesWithManifests", [], ["frameIds"]);
+//InspectorBackend.registerCommand("ApplicationCache.enable", [], []);
+//InspectorBackend.registerCommand("ApplicationCache.getManifestForFrame", [{"name": "frameId", "type": "string", "optional": false}], ["manifestURL"]);
+//InspectorBackend.registerCommand("ApplicationCache.getApplicationCacheForFrame", [{"name": "frameId", "type": "string", "optional": false}], ["applicationCache"]);
 
-// FileSystem.
+// FileSystem. TODO 独自拡張に使用
 //InspectorBackend.registerFileSystemDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "FileSystem");
 InspectorBackend.registerCommand("FileSystem.enable", [], []);
 InspectorBackend.registerCommand("FileSystem.disable", [], []);
+
+
 
 // DOM.
 /*
@@ -231,14 +235,16 @@ InspectorBackend.registerCommand("CSS.getSupportedCSSProperties", [], ["cssPrope
 InspectorBackend.registerCommand("CSS.startSelectorProfiler", [], []);
 InspectorBackend.registerCommand("CSS.stopSelectorProfiler", [], ["profile"]);
 */
+
 // Timeline.
-/*
-InspectorBackend.registerTimelineDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Timeline");
+//InspectorBackend.registerTimelineDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Timeline");
 InspectorBackend.registerEvent("Timeline.eventRecorded", ["record"]);
+InspectorBackend.registerEvent("Timeline.started", []);
+InspectorBackend.registerEvent("Timeline.stopped", []);
 InspectorBackend.registerCommand("Timeline.start", [{"name": "maxCallStackDepth", "type": "number", "optional": true}], []);
 InspectorBackend.registerCommand("Timeline.stop", [], []);
 InspectorBackend.registerCommand("Timeline.setIncludeMemoryDetails", [{"name": "enabled", "type": "boolean", "optional": false}], []);
-*/
+
 // Debugger.
 //InspectorBackend.registerDebuggerDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "Debugger");
 InspectorBackend.registerEvent("Debugger.debuggerWasEnabled", []);

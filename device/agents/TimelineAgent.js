@@ -1,53 +1,58 @@
-//var probes = require('./probes');
 
-function TimelineAgent(sendEvent, runtimeAgent) {
-    this.sendEvent = sendEvent;
-    this.runtimeAgent = runtimeAgent;
+function TimelineAgent( notify ) {
+    this.notify = notify;
     this.enabled = false;
+
     this.maxCallStackDepth = 5;
     this.includeMemoryDetails = true;
+
+    // @deprecated
+    this.timer = null;
 }
 
 (function() {
     this.enable = function(params, sendResult) {
-        sendResult({result: false});
-        /*
         this.enabled = true;
-        sendResult({result: this.enabled});
-        probes.start();
-        */
+        sendResult({result: this.enabled})
     };
 
     this.disable = function(params, sendResult) {
         this.enabled = false;
-        probes.stop();
-        sendResult({result: this.enabled});
+        sendResult({});
     };
 
-    this.timeStamp = function(params, sendResult, sendEvent) {
-        var memory = process.memoryUsage();
-        sendEvent({
+    this.eventRecorded = function(message) {
+
+        var memory = app.memory;
+
+        this.notify({
             method: 'Timeline.eventRecorded',
             params: {
                 record: {
                     startTime: Date.now(),
                     endTime: Date.now(),
                     data: { 'message': message || '' },
-                    type: 'TimeStamp',
-                    usedHeapSize: memory.heapUsed,
-                    totalHeapSize: memory.heapTotal
+                    type: "Memory",//'TimeStamp',
+                    usedHeapSize: memory.used,
+                    totalHeapSize: memory.total
                 }
             }
         });
     };
 
     this.start = function(params, sendResult) {
-        this.maxCallStackDepth = params.maxCallStackDepth || 5;
+        this.maxCallStackDepth = params && params.maxCallStackDepth || 5;
         sendResult({});
+        this.notify({ method: "Timeline.started", params: {} });
+        var self = this;
+        this.timer = setInterval( function(){ self.eventRecorded(); }, 1000 );
     };
 
     this.stop = function(params, sendResult) {
         sendResult({});
+        clearInterval( this.timer );
+        var self = this;
+        this.notify({ method: "Timeline.stopped", params: {} });
     };
 
     this.setIncludeMemoryDetails = function(params, sendResult) {
@@ -55,6 +60,3 @@ function TimelineAgent(sendEvent, runtimeAgent) {
         sendResult({});
     };
 }).call(TimelineAgent.prototype);
-
-//module.exports = TimelineAgent;
-

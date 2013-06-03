@@ -12,7 +12,7 @@ var NativeJSAgentSocket = function( host, port ) {
 
     var timer = -1;
     function tryConnecting(){
-        if(timer!=-1)return;
+        if(timer!=-1 || this.isClosed)return;
         console.log(" ... ");
         timer = setTimeout( function(){
             if(ws){ ws.close(); ws = ws.onopen = ws.onclose = ws.onerror = ws.onmessage = null; }
@@ -51,6 +51,7 @@ NativeJSAgentSocket.prototype.send = function (data) {
 };
 NativeJSAgentSocket.prototype.close = function () {
     this._ws.close();
+    this.isClosed = true;
 };
 NativeJSAgentSocket.prototype.onclose = function(){ this.emit("close"); };
 NativeJSAgentSocket.prototype.onerror = function(){ this.emit("error"); console.info("error"); };
@@ -63,4 +64,4 @@ NativeJSAgentSocket.prototype.onopen = function(){
 function fmt( text ){
     if( text.length<200 ) return text;
     return text.substr(0,200)+"...";
-};
+}

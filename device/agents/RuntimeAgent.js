@@ -26,9 +26,8 @@ var RemoteObject = function(object, forceValueType) {
 
     this.objectId = /*smv*/"console_"+JSON.stringify({ injectedScriptId: 0, id: _objectId++});
     var subtype = helpers.subtype(object);
-    if (subtype) {
-        this.subtype = subtype;
-    }
+    if (subtype) this.subtype = subtype;
+
     this.className = object.constructor || object.name || '';
     this.description = helpers.describe(object);
     this.value = helpers.decycle(object);
@@ -100,11 +99,12 @@ function RuntimeAgent( notify, v8Client ) {
 
 RuntimeAgent.prototype.evaluate = function(params, sendResult) {
     var result = null;
-    //try {
+    try {
         result = eval.call( global, "with ({}) {\n" + params.expression + "\n}");
-    //} catch (e) {
-    //    return sendResult(this.createThrownValue(e, params.objectGroup));
-    //}
+    } catch (e) {
+        e.stack = "";
+        return sendResult(this.createThrownValue(e, params.objectGroup));
+    }
 
     sendResult({
         result: this.wrapObject(result, params.objectGroup),
@@ -262,11 +262,11 @@ RuntimeAgent.prototype.callFunctionOn = function(params, sendResult) {
         }
 
         return sendResult({
-            result:  this.wrapObject(func.apply(object, resolvedArgs), objectGroup, params.returnByValue),
+            result: this.wrapObject(func.apply(object, resolvedArgs), objectGroup, params.returnByValue),
             wasThrown: false
         });
     } catch (e) {
-        return sendResult(this.createThrownValue(e, objectGroup));
+        return sendResult( this.createThrownValue(e, objectGroup) );
     }
 };
 

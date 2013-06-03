@@ -15,7 +15,7 @@ WebInspector._createPanels = function()
 {
     this.panels.scripts = new WebInspector.ScriptsPanel();
     this.panels.profiles = new WebInspector.ProfilesPanel();
-    //this.panels.timeline = new WebInspector.TimelinePanel();
+    this.panels.timeline = new WebInspector.TimelinePanel();
     //this.panels.elements = new WebInspector.ElementsPanel();
     //this.panels.network = new WebInspector.NetworkPanel();
     //this.panels.audits = new WebInspector.AuditsPanel();
@@ -29,7 +29,7 @@ WebInspector._createPanels = function()
 WebInspector.loaded = function()
 {
     InspectorBackend.dumpInspectorProtocolMessages = true;
-    InspectorBackend.dumpV8ProtocolMessages = true;
+    //InspectorBackend.dumpV8ProtocolMessages = true;
     //InspectorBackend.dumpInspectorTimeStats=true;
 
     var host = "192.168.2.2";//
@@ -47,11 +47,14 @@ WebInspector.loaded = function()
     });
     njsSocket.on("close", function() {
         // TODO とりあえずreload
-        location.reload();
-        /*
+        njsSocket.close();
+        //location.reload();
+        var dummy = new NativeJSAgentSocket( host, port );
+        dummy.onopen = function(){ location.reload(); };
+/*
         if (!WebInspector.socket._detachReason)
             (new WebInspector.RemoteDebuggingTerminatedScreen("websocket_closed")).showModal();
-            */
+*/
     });
 
     var v8 = new V8Wrapper( njsSocket );
@@ -59,6 +62,7 @@ WebInspector.loaded = function()
     RuntimeAgent = RuntimeAgentCreate( { njsSock: njsSocket, v8: v8 } );
     ConsoleAgent = ConsoleAgentCreate( { njsSock: njsSocket, v8: v8 } );
     DOMStorageAgent = DOMStorageAgentCreate( { njsSock: njsSocket, v8: v8 } );
+    TimelineAgent = TimelineAgentCreate( { njsSock: njsSocket, v8: v8 } );
 };
 
 

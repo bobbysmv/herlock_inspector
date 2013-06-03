@@ -66,7 +66,7 @@ window.DebuggerAgentCreate;
             if (desc.length > 100) {
                 desc = desc.substring(0, 100) + '\u2026';
             }
-            return wrapperObject(ref.type, desc, kids, 0, 0, ref.handle);
+            return wrapperObject( ref.type, desc, kids, 0, 0, ref.handle );
         }
 
         function callFrames(bt) {

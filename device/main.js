@@ -2,7 +2,7 @@
 
     inspector.start();
 
-    var Loader = function(){
+    var Loader = function() {
         var len = arguments.length,c= 0,self=this;
         this.cnt=function(){ c++;if(c>=len) this.onload() };
         for(var i=0; i<len;i++)
@@ -18,8 +18,9 @@
         inspector.send( msg );
     }
 
-    var ROOT = "http://192.168.2.1:8080/";
-    //var ROOT = "http://172.20.1.48:8080/";
+    //var ROOT = "http://192.168.2.1:8080/";
+    //var ROOT = "http://192.168.32.16:8080/";
+    var ROOT = "http://172.20.1.55:8080/";
     //var ROOT = "http://herlock.nb.sonicmoov.net/inspector/"
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
@@ -47,7 +48,6 @@
     location.onreload = function(){
         notify( { method:"Inspector.reload", params:{} } );
     };
-
 
     var v8Client = null;
 
@@ -85,6 +85,8 @@
         });
 
     };
+
+
 
 
 })()

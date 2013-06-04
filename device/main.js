@@ -40,7 +40,8 @@
         AGENTROOT+ "RuntimeAgent.js",
         AGENTROOT+ "ConsoleAgent.js",
         AGENTROOT+ "ProfilerAgent.js",
-        AGENTROOT+ "DOMStorageAgent.js"
+        AGENTROOT+ "DOMStorageAgent.js",
+        AGENTROOT+ "DOMAgent.js"
     ).onload = function(){};
 
 
@@ -55,7 +56,7 @@
     function getAgent( key ){
         //if( v8Client===null ) v8Client = new V8DebuggerClient( notify );
         var name = key + "Agent";
-        if( !agents[name] ) agents[name] = new window[name]( notify, v8Client );
+        if( !agents[name] && window[name] ) agents[name] = new window[name]( notify, v8Client );
         if( !agents[name] ) console.log( name + " is not found!" );
         return agents[name];
     }
@@ -77,6 +78,10 @@
         var params = data.params;
 
         var agent = getAgent( key );
+
+        if( !agent[ method ] ) {
+            console.log( data.method + " is not found!" );
+        }
 
         agent[ method ]( params, function(result) {
             var msg = JSON.stringify( { id: id, result: result } );

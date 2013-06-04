@@ -16,7 +16,7 @@ WebInspector._createPanels = function()
     this.panels.scripts = new WebInspector.ScriptsPanel();
     this.panels.profiles = new WebInspector.ProfilesPanel();
     this.panels.timeline = new WebInspector.TimelinePanel();
-    //this.panels.elements = new WebInspector.ElementsPanel();
+    this.panels.elements = new WebInspector.ElementsPanel();
     //this.panels.network = new WebInspector.NetworkPanel();
     //this.panels.audits = new WebInspector.AuditsPanel();
     this.panels.resources = new WebInspector.ResourcesPanel();
@@ -63,6 +63,7 @@ WebInspector.loaded = function()
     ConsoleAgent = ConsoleAgentCreate( { njsSock: njsSocket, v8: v8 } );
     DOMStorageAgent = DOMStorageAgentCreate( { njsSock: njsSocket, v8: v8 } );
     TimelineAgent = TimelineAgentCreate( { njsSock: njsSocket, v8: v8 } );
+    DOMAgent = DOMAgentCreate( { njsSock: njsSocket, v8: v8 } );
 };
 
 
@@ -93,7 +94,8 @@ WebInspector.doLoadedDone = function()
     this.drawer.visibleView = this.console;
     this.networkManager = new WebInspector.NetworkManager();
     this.resourceTreeModel = new WebInspector.ResourceTreeModel();
-    //this.domAgent = new WebInspector.DOMAgent();
+
+    this.domAgent = new WebInspector.DOMAgent();
 
     InspectorBackend.registerDomainDispatcher("Inspector", this);
     InspectorBackend.registerDomainDispatcher("Page", this);

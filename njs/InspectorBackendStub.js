@@ -90,6 +90,11 @@ InspectorBackend.registerCommand("Console.getProperties", [
     {"name": "objectId", "type": "string", "optional": false},
     {"name": "ownProperties", "type": "boolean", "optional": true}
 ], ["result"]);
+// SMV Runtimeからの移植
+InspectorBackend.registerCommand("Console.evaluateOn", [ // RemoteObject
+    {"name": "objectId", "type": "string", "optional": true},
+    {"name": "expression", "type": "string", "optional": false},
+], ["result"]);
 
 
 // Network.
@@ -169,8 +174,7 @@ InspectorBackend.registerCommand("FileSystem.disable", [], []);
 
 
 // DOM.
-/*
-InspectorBackend.registerDOMDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "DOM");
+//InspectorBackend.registerDOMDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "DOM");
 InspectorBackend.registerEvent("DOM.documentUpdated", []);
 InspectorBackend.registerEvent("DOM.setChildNodes", ["parentId", "nodes"]);
 InspectorBackend.registerEvent("DOM.attributeModified", ["nodeId", "name", "value"]);
@@ -212,7 +216,7 @@ InspectorBackend.registerCommand("DOM.setTouchEmulationEnabled", [{"name": "enab
 InspectorBackend.registerCommand("DOM.undo", [], []);
 InspectorBackend.registerCommand("DOM.redo", [], []);
 InspectorBackend.registerCommand("DOM.markUndoableState", [], []);
-*/
+
 // CSS.
 /*
 InspectorBackend.registerCSSDispatcher = InspectorBackend.registerDomainDispatcher.bind(InspectorBackend, "CSS");

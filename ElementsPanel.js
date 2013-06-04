@@ -61,7 +61,8 @@ WebInspector.ElementsPanel = function()
         this.panel.updateEventListeners();
 
         if (this._focusedDOMNode) {
-            ConsoleAgent.addInspectedNode(this._focusedDOMNode.id);
+            // SMV
+            //ConsoleAgent.addInspectedNode( this._focusedDOMNode.id );
             WebInspector.extensionServer.notifyObjectSelected(this.panel.name);
         }
     };
@@ -74,25 +75,25 @@ WebInspector.ElementsPanel = function()
     this.crumbsElement.addEventListener("mouseout", this._mouseMovedOutOfCrumbs.bind(this), false);
 
     this.sidebarPanes = {};
-    this.sidebarPanes.computedStyle = new WebInspector.ComputedStyleSidebarPane();
-    this.sidebarPanes.styles = new WebInspector.StylesSidebarPane(this.sidebarPanes.computedStyle);
-    this.sidebarPanes.metrics = new WebInspector.MetricsSidebarPane();
+    //this.sidebarPanes.computedStyle = new WebInspector.ComputedStyleSidebarPane();
+    //this.sidebarPanes.styles = new WebInspector.StylesSidebarPane(this.sidebarPanes.computedStyle);
+    //this.sidebarPanes.metrics = new WebInspector.MetricsSidebarPane();
     this.sidebarPanes.properties = new WebInspector.PropertiesSidebarPane();
     if (Preferences.nativeInstrumentationEnabled)
         this.sidebarPanes.domBreakpoints = WebInspector.domBreakpointsSidebarPane;
     this.sidebarPanes.eventListeners = new WebInspector.EventListenersSidebarPane();
 
-    this.sidebarPanes.styles.onexpand = this.updateStyles.bind(this);
-    this.sidebarPanes.metrics.onexpand = this.updateMetrics.bind(this);
+    //this.sidebarPanes.styles.onexpand = this.updateStyles.bind(this);
+    //this.sidebarPanes.metrics.onexpand = this.updateMetrics.bind(this);
     this.sidebarPanes.properties.onexpand = this.updateProperties.bind(this);
     this.sidebarPanes.eventListeners.onexpand = this.updateEventListeners.bind(this);
 
-    this.sidebarPanes.styles.expanded = true;
+    //this.sidebarPanes.styles.expanded = true;
 
-    this.sidebarPanes.styles.addEventListener("style edited", this._stylesPaneEdited, this);
-    this.sidebarPanes.styles.addEventListener("style property toggled", this._stylesPaneEdited, this);
-    this.sidebarPanes.metrics.addEventListener("metrics edited", this._metricsPaneEdited, this);
-    WebInspector.cssModel.addEventListener("stylesheet changed", this._styleSheetChanged, this);
+    //this.sidebarPanes.styles.addEventListener("style edited", this._stylesPaneEdited, this);
+    //this.sidebarPanes.styles.addEventListener("style property toggled", this._stylesPaneEdited, this);
+    //this.sidebarPanes.metrics.addEventListener("metrics edited", this._metricsPaneEdited, this);
+    //WebInspector.cssModel.addEventListener("stylesheet changed", this._styleSheetChanged, this);
 
     this.sidebarElement = document.createElement("div");
     this.sidebarElement.id = "elements-sidebar";
@@ -126,7 +127,8 @@ WebInspector.ElementsPanel = function()
 WebInspector.ElementsPanel.prototype = {
     get toolbarItemLabel()
     {
-        return WebInspector.UIString("Elements");
+        //return WebInspector.UIString("Elements");
+        return WebInspector.UIString("DisplayTree");
     },
 
     get statusBarItems()
@@ -1000,6 +1002,7 @@ WebInspector.ElementsPanel.prototype = {
 
     updateStyles: function(forceUpdate)
     {
+        /* //SMV
         var stylesSidebarPane = this.sidebarPanes.styles;
         var computedStylePane = this.sidebarPanes.computedStyle;
         if ((!stylesSidebarPane.expanded && !computedStylePane.expanded) || !stylesSidebarPane.needsUpdate)
@@ -1007,16 +1010,19 @@ WebInspector.ElementsPanel.prototype = {
 
         stylesSidebarPane.update(this.focusedDOMNode, null, forceUpdate);
         stylesSidebarPane.needsUpdate = false;
+        */
     },
 
     updateMetrics: function()
     {
+        /* //SMV
         var metricsSidebarPane = this.sidebarPanes.metrics;
         if (!metricsSidebarPane.expanded || !metricsSidebarPane.needsUpdate)
             return;
 
         metricsSidebarPane.update(this.focusedDOMNode);
         metricsSidebarPane.needsUpdate = false;
+        */
     },
 
     updateProperties: function()
@@ -1055,7 +1061,7 @@ WebInspector.ElementsPanel.prototype = {
         section.addRelatedKeys(keys, WebInspector.UIString("Expand/collapse"));
         section.addKey(shortcut.shortcutToString(shortcut.Keys.Enter), WebInspector.UIString("Edit attribute"));
 
-        this.sidebarPanes.styles.registerShortcuts();
+        //this.sidebarPanes.styles.registerShortcuts();
     },
 
     handleShortcut: function(event)

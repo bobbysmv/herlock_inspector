@@ -112,6 +112,26 @@ RuntimeAgent.prototype.evaluate = function(params, sendResult) {
     });
 };
 
+RuntimeAgent.prototype.evaluateOn = function(params, sendResult) {
+    var result = null;
+    try {
+        // SMV
+        //result = eval.call( global, "with ({}) {\n" + params.expression + "\n}");
+        result = eval.call( global,
+            "( function() {" + params.expression + "} ).call( inspector.getAgent('Runtime').getObjectByRemoteId( '"+params.objectId+"') );"
+        );
+
+    } catch (e) {
+        e.stack = "";
+        return sendResult(this.createThrownValue(e, params.objectGroup));
+    }
+
+    sendResult({
+        result: this.wrapObject(result, params.objectGroup),
+        wasThrown: false
+    });
+};
+
 
 RuntimeAgent.prototype.getProperties = function(params, sendResult) {
     var object = this.objects[params.objectId];
@@ -203,10 +223,18 @@ RuntimeAgent.prototype.wrapObject = function(object, objectGroup, forceValueType
 
     this.objects[remoteObject.objectId] = {
         objectGroup: objectGroup,
-        value: object
+        value: object,
+        remoteObject: remoteObject
     };
     return remoteObject;
 };
+
+RuntimeAgent.prototype.getRemoteObjectById = function( id ) {
+    return this.objects[id] ? this.objects[id].remoteObject : null;
+}
+RuntimeAgent.prototype.getObjectByRemoteId = function( id ) {
+    return this.objects[id] ? this.objects[id].value : null;
+}
 
 RuntimeAgent.prototype.createThrownValue = function(value, objectGroup) {
     var remoteObject = this.wrapObject(value, objectGroup);

@@ -159,7 +159,9 @@ WebInspector.RemoteObject.prototype = {
 
     evaluate: function(expression, callback)
     {
-        RuntimeAgent.evaluateOn(this._objectId, expression, callback);
+        // SMV
+        //RuntimeAgent.evaluateOn(this._objectId, expression, callback);
+        ConsoleAgent.evaluateOn(this._objectId, expression, callback);
     },
 
     release: function()

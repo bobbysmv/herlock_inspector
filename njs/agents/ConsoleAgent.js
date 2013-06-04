@@ -128,7 +128,15 @@ window.ConsoleAgentCreate;
                         objectId:objectId, ownProperties:ownProperties, callback:callback
                     } }) );
                 }
-            }
+            },
+            evaluateOn: {
+                value: function( objectId, expression, callback ) {
+                    var id = InspectorBackend.registerCallbackAndIssueId( "Console.evaluateOn", callback );
+                    sock.send( JSON.stringify({ id:id, method:"Console.evaluateOn", params:{
+                        objectId:objectId, expression:expression
+                    } }) );
+                }
+        }
         });
     };
 

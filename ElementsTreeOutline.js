@@ -590,7 +590,7 @@ WebInspector.ElementsTreeElement.prototype = {
 
         var lastChild = this.children[this.children.length - 1];
         if (this.representedObject.nodeType() == Node.ELEMENT_NODE && (!lastChild || !lastChild._elementCloseTag))
-            this.insertChildElement(this.representedObject, this.children.length, true);
+            ;//SMV this.insertChildElement(this.representedObject, this.children.length, true);
 
         // We want to restore the original selection and tree scroll position after a full refresh, if possible.
         if (fullRefresh && elementToSelect) {
@@ -1260,8 +1260,14 @@ WebInspector.ElementsTreeElement.prototype = {
     _tagHTML: function(tagName, isClosingTag, isDistinctTreeElement, linkify)
     {
         var node = this.representedObject;
+        /*
         var result = "<span class=\"webkit-html-tag" + (isClosingTag && isDistinctTreeElement ? " close" : "")  + "\">&lt;";
         result += "<span " + (isClosingTag ? "" : "class=\"webkit-html-tag-name\"") + ">" + (isClosingTag ? "/" : "") + tagName + "</span>";
+        */
+        // SMV
+        var result = "<span class=\"webkit-html-tag" + (isClosingTag && isDistinctTreeElement ? " close" : "")  + "\">{";
+        result += "<span " + (isClosingTag ? "" : "class=\"webkit-html-tag-name\"") + ">" + (isClosingTag ? "/" : "") + tagName + "</span>";
+
         if (!isClosingTag && node.hasAttributes()) {
             var attributes = node.attributes();
             for (var i = 0; i < attributes.length; ++i) {
@@ -1269,7 +1275,7 @@ WebInspector.ElementsTreeElement.prototype = {
                 result += " " + this._attributeHTML(attr.name, attr.value, node, linkify);
             }
         }
-        result += "&gt;</span>&#8203;";
+        result += "}</span>&#8203;";
 
         return result;
     },
@@ -1294,9 +1300,14 @@ WebInspector.ElementsTreeElement.prototype = {
                 break;
 
             case Node.ELEMENT_NODE:
-                var tagName = this.treeOutline.nodeNameToCorrectCase(node.nodeName()).escapeHTML();
+                //var tagName = this.treeOutline.nodeNameToCorrectCase(node.nodeName()).escapeHTML();
+                // SMV
+                var tagName = node.nodeName().escapeHTML();
+
                 if (this._elementCloseTag) {
-                    info.titleHTML = this._tagHTML(tagName, true, true);
+                    //info.titleHTML = this._tagHTML(tagName, true, true);
+                    // SMV
+                    info.titleHTML = "";//this._tagHTML(tagName, true, true);
                     info.hasChildren = false;
                     break;
                 }
@@ -1309,7 +1320,7 @@ WebInspector.ElementsTreeElement.prototype = {
                 if (!this.expanded && (!showInlineText && (this.treeOutline.isXMLMimeType || !WebInspector.ElementsTreeElement.ForbiddenClosingTagElements[tagName]))) {
                     if (this.hasChildren)
                         titleHTML += "<span class=\"webkit-html-text-node\">&#8230;</span>&#8203;";
-                    titleHTML += this._tagHTML(tagName, true, false);
+                    //titleHTML += this._tagHTML(tagName, true, false);
                 }
 
                 // If this element only has a single child that is a text node,

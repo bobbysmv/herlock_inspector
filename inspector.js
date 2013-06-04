@@ -319,7 +319,7 @@ var WebInspector = {
         if (nodeId)
             DOMAgent.highlightDOMNode(nodeId);
         else
-            DOMAgent.hideDOMNodeHighlight();
+            ;//DOMAgent.hideDOMNodeHighlight();
     },
 
     highlightDOMNodeForTwoSeconds: function(nodeId)

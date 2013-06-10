@@ -74,6 +74,14 @@ function DOMAgent( notify ) {
         sendResult( { } );
     };
 
+    this.getEventListenersForNode = function(params, sendResult){
+        params.nodeId;
+
+        var listener = {nodeId:nodeId,type:type,listenerBody:listenerBody,sourceName:sourceName,lineNumber:lineNumber}
+        // TODO
+        sendResult( { listeners:[] } );
+    }
+
 
 }).call(DOMAgent.prototype);
 

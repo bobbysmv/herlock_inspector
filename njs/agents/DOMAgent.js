@@ -77,6 +77,12 @@ window.DOMAgentCreate;
                     var id = InspectorBackend.registerCallbackAndIssueId( "DOM.highlightDOMNode", callback );
                     sock.send( JSON.stringify({ id:id, method:"DOM.highlightDOMNode", params:{nodeId:nodeId} }) );
                 }
+            },
+            getEventListenersForNode: {
+                value: function( nodeId, callback ) {
+                    var id = InspectorBackend.registerCallbackAndIssueId( "DOM.getEventListenersForNode", callback );
+                    sock.send( JSON.stringify({ id:id, method:"DOM.getEventListenersForNode", params:{nodeId:nodeId} }) );
+                }
             }
         });
     };

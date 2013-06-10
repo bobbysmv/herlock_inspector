@@ -20,8 +20,8 @@
 
     //var ROOT = "http://192.168.2.1:8080/";
     //var ROOT = "http://192.168.32.16:8080/";
-    var ROOT = "http://172.20.1.55:8080/";
-    //var ROOT = "http://herlock.nb.sonicmoov.net/inspector/"
+    //var ROOT = "http://172.20.1.55:8080/";
+    var ROOT = "http://herlock.nb.sonicmoov.net/inspector/"
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
     var V8ROOT = ROOT+"device/v8/";

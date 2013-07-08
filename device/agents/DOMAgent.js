@@ -136,7 +136,10 @@ Layer.prototype.toNode = function(){
         nodeValue : "",
         attributes : [],
         childNodeCount : this.content? 1: 0,
-        children : this.content? [this.content.toNode()]: []
+        children : this.content
+            && this.content.toNode
+            ? [this.content.toNode()]
+            : []
     }
 };
 DisplayObject.prototype.toNode = function(){
@@ -147,7 +150,7 @@ DisplayObject.prototype.toNode = function(){
         nodeName : "DisplayObject",
         localName : "DisplayObject",
         nodeValue : "",
-        attributes : [ /*"name", this.name*/ ],
+        attributes : this.name? [ "name", this.name ] : [],
         childNodeCount : 0,
         children : []
     }
@@ -200,4 +203,19 @@ Sprite.prototype.toNode = function(){
     var node = DisplayObjectContainer.prototype.toNode.call(this);
     node.nodeName = node.localName = "Sprite";
     return node;
+};
+
+TinyGL.prototype.toNode = function(){
+    var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );
+
+    return {
+        id : remote.objectId,
+        nodeType : Node.ELEMENT_NODE,
+        nodeName : "TinyGL",
+        localName : "TinyGL",
+        nodeValue : "",
+        attributes : [],
+        childNodeCount : 0,
+        children : []
+    }
 };

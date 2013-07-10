@@ -19,7 +19,7 @@
         inspector.send( msg );
     }
 
-    var ROOT = INSPECTOR || "http://herlock.nb.sonicmoov.net/inspector/";
+    var ROOT = window.INSPECTOR || "http://herlock.nb.sonicmoov.net/inspector/";
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
     var V8ROOT = ROOT+"device/v8/";

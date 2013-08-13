@@ -45,7 +45,7 @@ InspectorBackend.registerCommand("Page.setShowPaintRects", [{"name": "result", "
 */
 
 // Runtime.
-//InspectorBackend.registerCommand("Runtime.evaluateOn" // TODO RemoteObject
+//InspectorBackend.registerCommand("Runtime.evaluateOn" // Consoleへ移植
 InspectorBackend.registerCommand("Runtime.evaluateOnCallFrame", [
     {"name": "expression", "type": "string", "optional": false},
     {"name": "objectGroup", "type": "string", "optional": true},
@@ -64,7 +64,7 @@ InspectorBackend.registerCommand("Runtime.getProperties", [{"name": "objectId", 
 InspectorBackend.registerCommand("Runtime.releaseObject", [{"name": "objectId", "type": "string", "optional": false}], []);
 InspectorBackend.registerCommand("Runtime.releaseObjectGroup", [{"name": "objectGroup", "type": "string", "optional": false}], []);
 InspectorBackend.registerCommand("Runtime.run", [], []);
-InspectorBackend.registerCommand("Runtime.setPropertyValue", [
+InspectorBackend.registerCommand("Runtime.setPropertyValue", [ // Consoleへ移植
     {"name": "objectId", "type": "string", "optional": false},
     {"name": "name", "type": "string", "optional": false},
     {"name": "value", "type": "string", "optional": false}
@@ -86,10 +86,17 @@ InspectorBackend.registerCommand("Console.evaluate", [ // ConsoleView.evalInInsp
     {"name": "objectGroup", "type": "string", "optional": true},
     {"name": "includeCommandLineAPI", "type": "boolean", "optional": true}
 ], ["result"]);
+// SMV Runtimeからの移植
 InspectorBackend.registerCommand("Console.getProperties", [
     {"name": "objectId", "type": "string", "optional": false},
     {"name": "ownProperties", "type": "boolean", "optional": true}
 ], ["result"]);
+// SMV Runtimeからの移植
+InspectorBackend.registerCommand("Console.setPropertyValue", [
+    {"name": "objectId", "type": "string", "optional": false},
+    {"name": "name", "type": "string", "optional": false},
+    {"name": "value", "type": "string", "optional": false}
+], [] );
 // SMV Runtimeからの移植
 InspectorBackend.registerCommand("Console.evaluateOn", [ // RemoteObject
     {"name": "objectId", "type": "string", "optional": true},
@@ -216,6 +223,9 @@ InspectorBackend.registerCommand("DOM.setTouchEmulationEnabled", [{"name": "enab
 InspectorBackend.registerCommand("DOM.undo", [], []);
 InspectorBackend.registerCommand("DOM.redo", [], []);
 InspectorBackend.registerCommand("DOM.markUndoableState", [], []);
+// 非同期なノード情報取得向け拡張。。と言うかUI以外自前？ by SMV TODO...
+//InspectorBackend.registerCommand("DOM.getNode", [{"name": "nodeId", "type": "number", "optional": false}, {"name": "name", "type": "string", "optional": false}], ["nodeId"]);
+
 
 // CSS.
 /*

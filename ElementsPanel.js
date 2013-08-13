@@ -105,8 +105,12 @@ WebInspector.ElementsPanel = function()
     this.sidebarResizeElement.className = "sidebar-resizer-vertical";
     this.sidebarResizeElement.addEventListener("mousedown", this.rightSidebarResizerDragStart.bind(this), false);
 
-    this._nodeSearchButton = new WebInspector.StatusBarButton(WebInspector.UIString("Select an element in the page to inspect it."), "node-search-status-bar-item");
-    this._nodeSearchButton.addEventListener("click", this.toggleSearchingForNode.bind(this), false);
+    // searchButton TODO -> refreshButton
+    //this._nodeSearchButton = new WebInspector.StatusBarButton(WebInspector.UIString("Select an element in the page to inspect it."), "node-search-status-bar-item");
+    //this._nodeSearchButton.addEventListener("click", this.toggleSearchingForNode.bind(this), false);
+
+    this._nodeSearchButton = new WebInspector.StatusBarButton(WebInspector.UIString("Select an element in the page to inspect it."), "refresh-storage-status-bar-item");
+    this._nodeSearchButton.addEventListener("click", this.requestDocumentUpdate.bind(this), false);
 
     this.element.appendChild(this.contentElement);
     this.element.appendChild(this.sidebarElement);
@@ -1139,6 +1143,7 @@ WebInspector.ElementsPanel.prototype = {
         DOMAgent.setSearchingForNode(enabled, this._setSearchingForNode.bind(this, enabled));
     },
 
+    // TODO 不要に
     toggleSearchingForNode: function()
     {
         this.setSearchingForNode(!this._nodeSearchButton.toggled);
@@ -1147,6 +1152,11 @@ WebInspector.ElementsPanel.prototype = {
     elementsToRestoreScrollPositionsFor: function()
     {
         return [ this.contentElement, this.sidebarElement ];
+    }
+
+    // SMV
+    ,requestDocumentUpdate: function() {
+        WebInspector.domAgent._documentUpdated();
     }
 }
 

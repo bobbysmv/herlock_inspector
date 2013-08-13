@@ -81,6 +81,9 @@ WebInspector.PropertiesSidebarPane.prototype = {
                 var section = new WebInspector.ObjectPropertiesSection(prototype, title);
                 this.sections.push(section);
                 body.appendChild(section.element);
+
+                section.expand();// 最初から一つ開いててほしくね? SMV
+                break;// prototype chainを全部見せる必要なくね? SMV
             }
         }
     }

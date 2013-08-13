@@ -163,6 +163,7 @@ window.DebuggerAgentCreate;
 
 
         /*
+         v8からのレスポンスに含まれるscript情報をinspectorが解釈できる形式に直して返す。ついでにinspectorへ"Debugger.scriptParsed"を投げている
          "scriptId",
          "url",
          "startLine",
@@ -173,24 +174,32 @@ window.DebuggerAgentCreate;
          "sourceMapURL"
          */
         function parsedScripts(msg) {
+
+            // v8 scriptsコマンドのコールバックとして実装されている
+
             var scripts = msg.body.map(function (s) {
                 return s;
             });
 
             scripts.forEach(function (s) {
-                var hidden = config.hidden && config.hidden.some(function (r) { return r.test(s.url); });
+
+                var hidden = config.hidden && config.hidden.some(function (r) { return r.test(s.name); });
+
                 var item = { hidden:hidden, path:s.name, url: s.name };
                 sourceIDs[s.id] = item;
-                if (!hidden) { sendEvent('scriptParsed', {
-                    "scriptId": s.id.toString(),
-                    "url": s.name,
-                    "startLine": s.lineOffset+1,
-                    "startColumn": s.columnOffset,
-                    "endLine": s.lineOffset + s.lineCount,
-                    "endColumn": 0,
-                    "isContentScript": false,
-                    "sourceMapURL": s.name
-                }); }
+                if (!hidden) {
+                    //
+                    sendEvent('scriptParsed', {
+                        "scriptId": s.id.toString(),
+                        "url": s.name,
+                        "startLine": s.lineOffset+1,
+                        "startColumn": s.columnOffset,
+                        "endLine": s.lineOffset + s.lineCount,
+                        "endColumn": 0,
+                        "isContentScript": false,
+                        "sourceMapURL": s.name
+                    });
+                }
             });
             return scripts;
         }
@@ -220,6 +229,7 @@ window.DebuggerAgentCreate;
             }
         }
 
+        /* // 安定版。ただし、alwaysEnableじゃないと動かない
         function browserConnected() { // TODO find a better name
 
             var args = { arguments:{ includeSource:true, types:4 }};
@@ -245,6 +255,39 @@ window.DebuggerAgentCreate;
                         sendEvent('debuggerWasEnabled'); // storageに保存されていたbreakpointがrestoreされる
                         if (!msg.running) sendBacktrace();
                     });
+
+            });
+        }
+        */
+        function browserConnected() { // TODO find a better name
+
+            var args = { arguments:{ includeSource:true, types:4 }};
+
+            // initialize scripts
+            v8.request('scripts', args, function (msg) {
+
+                sendEvent('debuggerWasEnabled'); // 表示するため
+
+                v8.request('listbreakpoints', {},
+                    function (msg) {
+                        msg.body.breakpoints.forEach(function (bp) {
+                            // clear breakpoint
+                            v8.request( 'clearbreakpoint', { arguments: { breakpoint:bp.number } }, {} );
+                        });
+
+                        sendEvent('debuggerWasEnabled'); // storageに保存されていたbreakpointがrestoreされる
+                        if (!msg.running) sendBacktrace();
+                    });
+
+
+                script_url_id_dictionary = {};
+                var scripts = parsedScripts(msg); // dispatch parsed
+                for( var i in scripts )
+                    script_url_id_dictionary[scripts[i].name] = scripts[i].id;
+
+                // deviceに保持されたbreakpointを開放
+
+
 
             });
         }
@@ -476,7 +519,7 @@ window.DebuggerAgentCreate;
             },
             setPauseOnExceptions:{
                 value: function( state, callback ){
-                    var id = InspectorBackend.registerCallbackAndIssueId( "Debugger.getScriptSource", callback );
+                    var id = InspectorBackend.registerCallbackAndIssueId( "Debugger.setPauseOnExceptions"/*"getScriptSource"*/, callback );
                     this.setPauseOnExceptionsState(state,id);
                 }
             },

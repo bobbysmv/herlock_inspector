@@ -16,6 +16,9 @@ function ProfilerAgent(notify) {
 }
 
 (function(){
+
+    var inspector = devtools.inspector;
+
     this.enable = function(params, sendResult) {
         // TODO
         this.enabled = app.isANDROID? true: false;

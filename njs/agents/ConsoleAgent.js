@@ -129,6 +129,19 @@ window.ConsoleAgentCreate;
                     } }) );
                 }
             },
+            setPropertyValue:{
+                value: function( objectId, name, value, callback ) {
+
+                    function evaluateCallback ( error, result ) {
+                        console.log( JSON.stringify( result ) );
+                        callback(error, result);
+                    }
+                    var id = InspectorBackend.registerCallbackAndIssueId( "Console.setPropertyValue", evaluateCallback );
+                    sock.send( JSON.stringify({ id:id, method:"Console.setPropertyValue", params:{
+                        objectId:objectId, name:name, value:value, callback:callback
+                    } }) );
+                }
+            },
             evaluateOn: {
                 value: function( objectId, expression, callback ) {
                     var id = InspectorBackend.registerCallbackAndIssueId( "Console.evaluateOn", callback );

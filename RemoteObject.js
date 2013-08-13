@@ -146,7 +146,9 @@ WebInspector.RemoteObject.prototype = {
             callback("Can't get a property of non-object.");
             return;
         }
-        RuntimeAgent.setPropertyValue(this._objectId, name, value, callback);
+        //RuntimeAgent.setPropertyValue(this._objectId, name, value, callback);
+        // SMV
+        this.agent.setPropertyValue(this._objectId, name, value, callback);
     },
 
     pushNodeToFrontend: function(callback)

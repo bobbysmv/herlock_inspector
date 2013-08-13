@@ -2,7 +2,7 @@ window.RuntimeAgentCreate;
 (function(){
 
     /**
-     * v8依存
+     * JSエンジンとの対話。ここではv8依存の実装。 その他含むJSエンジン向け汎用実装はConsoleAgentへ移植している。
      * @param config
      * @return {*}
      * @constructor
@@ -285,9 +285,9 @@ window.RuntimeAgentCreate;
 
                 }
             },
-            setProperty:{
+            setPropertyValue:{
                 value: function( objectId, name, value, callback ) {
-                    var id = InspectorBackend.registerCallbackAndIssueId( "Runtime.releaseObject", callback );
+                    var id = InspectorBackend.registerCallbackAndIssueId( "Runtime.setPropertyValue", callback );
                     // TODO
                     sendResponse( id, true, {} );
                 }

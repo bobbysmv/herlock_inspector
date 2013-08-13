@@ -1,26 +1,31 @@
-// 本来のRuntimeAgentはブラウザ側にある。コレ自体はConsole.evaluateの委譲先として機能する。
+// 本来のRuntimeAgentはブラウザ側にある。コレ自体はConsole.evaluateの委譲先として機能させている。
+// クロスプラットフォームで稼働中
 
 //Code was based on /WebKit/Source/WebCore/inspector/InjectedScriptSource.js
 var _objectId = 0;
+/**
+ * RemoteObject ブラウザ側との橋渡し役 JSオブジェクトのラッパー
+ * @param object
+ * @param forceValueType
+ * @constructor
+ */
 var RemoteObject = function(object, forceValueType) {
     this.type = typeof object;
 
     if (helpers.isPrimitiveValue(object) ||
         object === null || forceValueType) {
         // We don't send undefined values over JSON.
-        if (typeof object !== "undefined") {
-            this.value = object;
-        }
+        if (typeof object !== "undefined") this.value = object;
 
         // Null object is object with 'null' subtype'
-        if (object === null) {
-            this.subtype = "null";
-        }
+        if (object === null) this.subtype = "null";
 
         // Provide user-friendly number values.
-        if (typeof object === "number") {
-            this.description = object + "";
-        }
+        if (typeof object === "number") this.description = object + "";
+
+        // smv string
+        if (typeof object === "string") this.description = object;
+
         return;
     }
 
@@ -33,12 +38,13 @@ var RemoteObject = function(object, forceValueType) {
     this.value = helpers.decycle(object);
 };
 
+
 var getPropertyDescriptors = function(object, ownProperties) {
     var descriptors = [];
     var nameProcessed = {};
     nameProcessed.__proto__ = null;
 
-    for (var o = object; helpers.isObject(o); o = o.__proto__) {
+    for ( var o = object; helpers.isObject(o); o = o.__proto__ ) {
         var names = Object.getOwnPropertyNames(o);
         for (var i = 0; i < names.length; ++i) {
             var name = names[i];
@@ -115,11 +121,13 @@ RuntimeAgent.prototype.evaluate = function(params, sendResult) {
 RuntimeAgent.prototype.evaluateOn = function(params, sendResult) {
     var result = null;
     try {
-        // SMV
+        // SMV TODO 何故書き換えたか？覚えていない
         //result = eval.call( global, "with ({}) {\n" + params.expression + "\n}");
+        // TODO コレではDisplayTreeからオブジェクトのプロパティリストが取れない
         result = eval.call( global,
-            "( function() {" + params.expression + "} ).call( inspector.getAgent('Runtime').getObjectByRemoteId( '"+params.objectId+"') );"
+            "( function() {" + params.expression + "} ).call( devtools.inspector.getAgent('Runtime').getObjectByRemoteId( '"+params.objectId+"') );"
         );
+
 
     } catch (e) {
         e.stack = "";
@@ -132,6 +140,19 @@ RuntimeAgent.prototype.evaluateOn = function(params, sendResult) {
     });
 };
 
+
+RuntimeAgent.prototype.setPropertyValue = function(params, sendResult) {
+    var object = this.getObjectByRemoteId( params.objectId );
+
+    if( object && ( params.name in object ) ) {
+        object[params.name] = params.value;//TODO valueはexpressionとして評価
+        eval.call( global,
+            "( function() { this." + params.name + " = " + params.value + "; } ).call( devtools.inspector.getAgent('Runtime').getObjectByRemoteId( '"+params.objectId+"') );"
+        );
+    }
+
+    sendResult({ result: true });
+};
 
 RuntimeAgent.prototype.getProperties = function(params, sendResult) {
     var object = this.objects[params.objectId];
@@ -178,34 +199,6 @@ RuntimeAgent.prototype.getProperties = function(params, sendResult) {
 
     sendResult({ result: results });
 };
-// 本家とフォーマットが違う。要調整
-RuntimeAgent.prototype.getProperties_BK = function(params, sendResult) {
-    var object = this.objects[params.objectId];
-
-    if (helpers.isUndefined(object)) {
-        console.error('RuntimeAgent.getProperties: Unknown object');
-        return;
-    }
-
-    object = object.value;
-    var descriptors = getPropertyDescriptors(object, params.ownProperties);
-    var len = descriptors.length;
-
-    if ( len === 0 && "arguments" in object)
-        for (var key in object)
-            descriptors.push({ name: key, value: object[key], writable: false, configurable: false, enumerable: true });
-
-    for (var i = 0; i < len; ++i) {
-        var descriptor = descriptors[i];
-        if ("get" in descriptor) descriptor.get = this.wrapObject(descriptor.get);
-        if ("set" in descriptor) descriptor.set = this.wrapObject(descriptor.set);
-        if ("value" in descriptor) descriptor.value = this.wrapObject(descriptor.value);
-        if (!("configurable" in descriptor)) descriptor.configurable = false;
-        if (!("enumerable" in descriptor)) descriptor.enumerable = false;
-    }
-
-    sendResult({ result: descriptors });
-};
 
 RuntimeAgent.prototype.wrapObject = function(object, objectGroup, forceValueType) {
     var remoteObject;
@@ -229,13 +222,29 @@ RuntimeAgent.prototype.wrapObject = function(object, objectGroup, forceValueType
     return remoteObject;
 };
 
+/**
+ *
+ * @param id
+ * @return {RemoteObject}
+ */
 RuntimeAgent.prototype.getRemoteObjectById = function( id ) {
     return this.objects[id] ? this.objects[id].remoteObject : null;
-}
+};
+/**
+ *
+ * @param id
+ * @return {*}
+ */
 RuntimeAgent.prototype.getObjectByRemoteId = function( id ) {
     return this.objects[id] ? this.objects[id].value : null;
-}
+};
 
+/**
+ *
+ * @param value
+ * @param objectGroup
+ * @return {Object}
+ */
 RuntimeAgent.prototype.createThrownValue = function(value, objectGroup) {
     var remoteObject = this.wrapObject(value, objectGroup);
     try {
@@ -248,6 +257,12 @@ RuntimeAgent.prototype.createThrownValue = function(value, objectGroup) {
     };
 };
 
+/**
+ *
+ * @param params
+ * @param sendResult
+ * @return {*}
+ */
 RuntimeAgent.prototype.callFunctionOn = function(params, sendResult) {
     var object = this.objects[params.objectId];
 
@@ -298,6 +313,11 @@ RuntimeAgent.prototype.callFunctionOn = function(params, sendResult) {
     }
 };
 
+/**
+ *
+ * @param params
+ * @param sendResult
+ */
 RuntimeAgent.prototype.releaseObjectGroup = function(params, sendResult) {
     for (var key in this.objects) {
         var value = this.objects[key];
@@ -308,6 +328,11 @@ RuntimeAgent.prototype.releaseObjectGroup = function(params, sendResult) {
     sendResult({});
 };
 
+/**
+ * RemoteObjectの破棄
+ * @param params
+ * @param sendResult
+ */
 RuntimeAgent.prototype.releaseObject = function(params, sendResult) {
     delete this.objects[params.objectId];
     sendResult({});

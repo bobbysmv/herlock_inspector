@@ -46,7 +46,7 @@ WebInspector.ConsoleView = function(drawer)
 
     this.promptElement = document.getElementById("console-prompt");
     this.promptElement.className = "source-code";
-    this.promptElement.addEventListener("keydown", this._promptKeyDown.bind(this), true);
+    this.promptElement.addEventListener("keydown", this._promptKeyDown.bind(this), true); // binding
     this.prompt = new WebInspector.TextPrompt(this.promptElement, this.completions.bind(this), ExpressionStopCharacters + ".");
     this.prompt.history = WebInspector.settings.consoleHistory;
 

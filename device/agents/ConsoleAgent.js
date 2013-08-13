@@ -139,6 +139,10 @@
             // 委譲
             inspector.getAgent("Runtime").getProperties( params, sendResult );
         };
+        this.setPropertyValue = function(params, sendResult) {
+            // 委譲
+            inspector.getAgent("Runtime").setPropertyValue( params, sendResult );
+        };
         this.evaluateOn = function(params, sendResult) {
             // 委譲
             inspector.getAgent("Runtime").evaluateOn( params, sendResult );

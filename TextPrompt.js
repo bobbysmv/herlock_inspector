@@ -37,7 +37,7 @@ WebInspector.TextPrompt = function(element, completions, stopCharacters, omitHis
         this.historyOffset = 0;
     }
     this._boundOnKeyDown = this._onKeyDown.bind(this);
-    this.element.addEventListener("keydown", this._boundOnKeyDown, true);
+    this.element.addEventListener("keydown", this._boundOnKeyDown, true); // 補間binding
 }
 
 WebInspector.TextPrompt.prototype = {
@@ -184,8 +184,11 @@ WebInspector.TextPrompt.prototype = {
 
     autoCompleteSoon: function()
     {
-        if (!("_completeTimeout" in this))
-            this._completeTimeout = setTimeout(this.complete.bind(this, true), 250);
+        //if (!("_completeTimeout" in this)) this._completeTimeout = setTimeout(this.complete.bind(this, true), 250 );
+        // SMV 入力毎に上書き
+        if ( ("_completeTimeout" in this) )
+            clearTimeout( this._completeTimeout );
+        this._completeTimeout = setTimeout(this.complete.bind(this, true), 250 * 4 ); // 補間間隔
     },
 
     complete: function(auto, reverse)

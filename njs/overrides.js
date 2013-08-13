@@ -5,7 +5,7 @@
  */
 
 // debugger always enabled
-Preferences.debuggerAlwaysEnabled = true;
+//Preferences.debuggerAlwaysEnabled = true;
 // enable LiveEdit
 //Preferences.canEditScriptSource = true;
 // enable heap profiler
@@ -58,7 +58,7 @@ WebInspector.loaded = function()
     });
 
     var v8 = new V8Wrapper( njsSocket );
-    DebuggerAgent = DebuggerAgentCreate( { njsSock: njsSocket, v8: v8 } );
+    DebuggerAgent = DebuggerAgentCreate( { njsSock: njsSocket, v8: v8, hidden:[ /device*.agent/ ] } );// TODO 隠したいjsのURLをRegExpで指定
     RuntimeAgent = RuntimeAgentCreate( { njsSock: njsSocket, v8: v8 } );
     ConsoleAgent = ConsoleAgentCreate( { njsSock: njsSocket, v8: v8 } );
     DOMStorageAgent = DOMStorageAgentCreate( { njsSock: njsSocket, v8: v8 } );

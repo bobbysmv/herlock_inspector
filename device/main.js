@@ -19,16 +19,13 @@
         inspector.send( msg );
     }
 
-    var ROOT = window.INSPECTOR || "http://herlock.nb.sonicmoov.net/inspector/";
+    var ROOT = window.INSPECTOR || "http://herlock.nb.sonicmoov.net/workspace/bobby/inspector/";
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
-    var V8ROOT = ROOT+"device/v8/";
 
 
     new Loader(
-        V8ROOT + "V8DebuggerClient.js",
         DEVROOT+ "helpers.js",
-        DEVROOT+ "translator.js",
 
         AGENTROOT+ "DebuggerAgent.js",
         AGENTROOT+ "InspectorAgent.js",
@@ -52,7 +49,6 @@
 
     var agents = {};
     function getAgent( key ){
-        //if( v8Client===null ) v8Client = new V8DebuggerClient( notify );
         var name = key + "Agent";
         if( !agents[name] && window[name] ) agents[name] = new window[name]( notify, v8Client );
         if( !agents[name] ) console.log( name + " is not found!" );
@@ -65,10 +61,11 @@
         app.nativeLog( "inspector.onMessage" );
         var data;
         try{
+            app.nativeLog( "inspector.onMessage JSON.parse" );
             data = JSON.parse( message );
         } catch (e){
-            console.log( message );
-            throw e;
+            console.log( e );
+            //throw e;
         }
         var key = data.method.split(".")[0];
         var method = data.method.split(".")[1];

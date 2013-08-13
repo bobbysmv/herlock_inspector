@@ -35,6 +35,7 @@
 
         this.highlightObject = null;
     }
+    window.DOMAgent = DOMAgent;
 
     (function() {
 
@@ -49,6 +50,7 @@
         };
 
         this.getDocument = function(params, sendResult) {
+            app.nativeLog("DOMAgent.getDocument");
             sendResult( { root:windowToNode() } );
         };
 
@@ -98,6 +100,7 @@
      * @return {Object}
      */
     function windowToNode(){
+        app.nativeLog("windowToNode");
         var layers = [];
         var i = 0;
         while( getLayerAt(i) ) {
@@ -130,6 +133,7 @@
         };
     }
     Layer.prototype.toNode = function(){
+        app.nativeLog("Layer.prototype.toNode");
         var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );
 
         return {
@@ -147,7 +151,9 @@
         }
     };
     DisplayObject.prototype.toNode = function(){
+        app.nativeLog("DisplayObject.prototype.toNode");
         var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );
+        app.nativeLog("DisplayObject.prototype.toNode wrapObject");
         return {
             id : remote.objectId,
             nodeType : Node.ELEMENT_NODE,
@@ -160,6 +166,7 @@
         }
     };
     Bitmap.prototype.toNode = function(){
+        app.nativeLog("Bitmap.prototype.toNode");
         var node = DisplayObject.prototype.toNode.call(this);
         node.nodeName = node.localName = "Bitmap";
         node.childNodeCount = this.bitmapData ? 1: 0;
@@ -167,6 +174,7 @@
         return node;
     };
     BitmapData.prototype.toNode = function(){
+        app.nativeLog("BitmapData.prototype.toNode");
         var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );
         return {
             id : remote.objectId,
@@ -180,36 +188,41 @@
         };
     };
     TextField.prototype.toNode = function(){
+        app.nativeLog("TextField.prototype.toNode");
         var node = DisplayObject.prototype.toNode.call(this);
         node.nodeName = node.localName = "TextField";
         node.nodeValue = this.text;
+        node.attributes.push( "text", this.text );
         return node;
     };
     DisplayObjectContainer.prototype.toNode = function(){
+        app.nativeLog("DisplayObjectContainer.prototype.toNode");
         var node = DisplayObject.prototype.toNode.call(this);
         node.nodeName = node.localName = "DisplayObjectContainer";
         var children = [];
-        var i = 0;
-        while( this.getChildAt(i) ) {
-            children.push( this.getChildAt(i).toNode() );i++;
-        }
-        node.childNodeCount = children.length;
+        var i = 0, len = this.numChildren;
+        for( i; i < len; i++ )
+            children.push( this.getChildAt(i).toNode() );
+        node.childNodeCount = len;
         node.children = children;
         return node;
     };
     Stage.prototype.toNode = function(){
+        app.nativeLog("Stage.prototype.toNode");
         var node = DisplayObjectContainer.prototype.toNode.call(this);
         node.nodeName = node.localName = "Stage";
         node.attributes.push( "frameRate", ""+this.frameRate );
         return node;
     };
     Sprite.prototype.toNode = function(){
+        app.nativeLog("Sprite.prototype.toNode");
         var node = DisplayObjectContainer.prototype.toNode.call(this);
         node.nodeName = node.localName = "Sprite";
         return node;
     };
 
     TinyGL.prototype.toNode = function(){
+        app.nativeLog("TinyGL.prototype.toNode");
         var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );
 
         return {
@@ -225,4 +238,4 @@
     };
 
 
-});
+})();

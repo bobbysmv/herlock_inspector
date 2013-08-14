@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         // ファイル結合の設定
         concat: {
             dist: {
-                src: [ '*.js', '!node_modules/*', '!output/*', '!Gruntfile.js' ],
+                src: [ '*.js', '**/*.js', '!node_modules/**', '!output/**', '!Gruntfile.js' ],
                 dest: 'output/<%= pkg.name %>.js'
             }
         },

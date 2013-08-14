@@ -19,6 +19,7 @@
         inspector.send( msg );
     }
 
+    /*
     var ROOT = window.INSPECTOR || "http://herlock.nb.sonicmoov.net/inspector/";
     var DEVROOT = ROOT+"device/";
     var AGENTROOT = ROOT+"device/agents/";
@@ -38,7 +39,7 @@
         AGENTROOT+ "DOMStorageAgent.js",
         AGENTROOT+ "DOMAgent.js"
     ).onload = function(){};
-
+    */
 
     // ブラウザにリロードを促す
     location.onreload = function(){
@@ -89,4 +90,4 @@
 
 
 
-})()
+})();

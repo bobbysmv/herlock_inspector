@@ -1,3 +1,7 @@
+(function(){
+
+var helpers = devtools.inspector.helpers;
+
 // 本来のRuntimeAgentはブラウザ側にある。コレ自体はConsole.evaluateの委譲先として機能させている。
 // クロスプラットフォームで稼働中
 
@@ -38,6 +42,7 @@ var RemoteObject = function(object, forceValueType) {
     this.value = helpers.decycle(object);
 };
 
+devtools.inspector.RemoteObject = RemoteObject;
 
 var getPropertyDescriptors = function(object, ownProperties) {
     var descriptors = [];
@@ -339,3 +344,5 @@ RuntimeAgent.prototype.releaseObject = function(params, sendResult) {
 };
 
 
+devtools.inspector.RuntimeAgent = RuntimeAgent;
+})();

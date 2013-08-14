@@ -1,3 +1,4 @@
+(function(){
 
 function TimelineAgent( notify ) {
     this.notify = notify;
@@ -60,3 +61,9 @@ function TimelineAgent( notify ) {
         sendResult({});
     };
 }).call(TimelineAgent.prototype);
+
+
+
+devtools.inspector.TimelineAgent = TimelineAgent;
+
+})();

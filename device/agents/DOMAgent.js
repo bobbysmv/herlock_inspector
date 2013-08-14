@@ -35,7 +35,6 @@
 
         this.highlightObject = null;
     }
-    window.DOMAgent = DOMAgent;
 
     (function() {
 
@@ -91,6 +90,8 @@
 
     }).call(DOMAgent.prototype);
 
+
+    devtools.inspector.DOMAgent = DOMAgent;
 
 
     /**

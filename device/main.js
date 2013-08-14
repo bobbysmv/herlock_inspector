@@ -19,28 +19,6 @@
         inspector.send( msg );
     }
 
-    /*
-    var ROOT = window.INSPECTOR || "http://herlock.nb.sonicmoov.net/inspector/";
-    var DEVROOT = ROOT+"device/";
-    var AGENTROOT = ROOT+"device/agents/";
-
-
-    new Loader(
-        DEVROOT+ "helpers.js",
-
-        AGENTROOT+ "DebuggerAgent.js",
-        AGENTROOT+ "InspectorAgent.js",
-        AGENTROOT+ "PageAgent.js",
-        AGENTROOT+ "TimelineAgent.js",
-        AGENTROOT+ "WorkerAgent.js",
-        AGENTROOT+ "RuntimeAgent.js",
-        AGENTROOT+ "ConsoleAgent.js",
-        AGENTROOT+ "ProfilerAgent.js",
-        AGENTROOT+ "DOMStorageAgent.js",
-        AGENTROOT+ "DOMAgent.js"
-    ).onload = function(){};
-    */
-
     // ブラウザにリロードを促す
     location.onreload = function(){
         notify( { method:"Inspector.reload", params:{} } );
@@ -51,6 +29,8 @@
     var agents = {};
     function getAgent( key ){
         var name = key + "Agent";
+        if( !agents[name] && devtools.inspector[name] )
+            agents[name] = new devtools.inspector[name]( notify, v8Client );
         if( !agents[name] && window[name] ) agents[name] = new window[name]( notify, v8Client );
         if( !agents[name] ) console.log( name + " is not found!" );
         return agents[name];
@@ -86,8 +66,5 @@
         });
 
     };
-
-
-
-
 })();
+

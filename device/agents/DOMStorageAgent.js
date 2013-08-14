@@ -1,3 +1,6 @@
+(function(){
+
+
 /**
  * DOMStorageAgent
  * @constructor
@@ -68,3 +71,7 @@ function DOMStorageAgent( notify ) {
 
 }).call(DOMStorageAgent.prototype);
 
+
+devtools.inspector.DOMStorageAgent = DOMStorageAgent;
+
+})();

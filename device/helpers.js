@@ -1,6 +1,8 @@
+(function(){
+
 //var underscore = require('underscore');
 
-helpers = new function(){
+var helpers = new function(){
     this.isArray = function( obj ){ return obj instanceof Array };
     this.isRegExp = function( obj ){ return obj instanceof RegExp };
     this.isDate = function( obj ){ return obj instanceof Date };
@@ -162,3 +164,6 @@ var decycle = function(object) {
 helpers.decycle = decycle;
 //helpers.mixin({ describe: describe });
 helpers.describe = describe;
+
+devtools.inspector.helpers = helpers;
+})();

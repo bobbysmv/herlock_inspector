@@ -1,3 +1,6 @@
+(function(){
+
+
 /**
  * DebuggerAgent
  * @constructor
@@ -24,3 +27,6 @@ function DebuggerAgent( notify ) {
 
 }).call(DebuggerAgent.prototype);
 
+devtools.inspector.DebuggerAgent = DebuggerAgent;
+
+})();

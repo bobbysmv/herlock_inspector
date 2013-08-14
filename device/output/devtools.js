@@ -1,6 +1,8 @@
+(function(){
+
 //var underscore = require('underscore');
 
-helpers = new function(){
+var helpers = new function(){
     this.isArray = function( obj ){ return obj instanceof Array };
     this.isRegExp = function( obj ){ return obj instanceof RegExp };
     this.isDate = function( obj ){ return obj instanceof Date };
@@ -162,6 +164,9 @@ var decycle = function(object) {
 helpers.decycle = decycle;
 //helpers.mixin({ describe: describe });
 helpers.describe = describe;
+
+devtools.inspector.helpers = helpers;
+})();
 
 (function(){
 
@@ -1219,28 +1224,6 @@ helpers.describe = describe;
         inspector.send( msg );
     }
 
-    /*
-    var ROOT = window.INSPECTOR || "http://herlock.nb.sonicmoov.net/inspector/";
-    var DEVROOT = ROOT+"device/";
-    var AGENTROOT = ROOT+"device/agents/";
-
-
-    new Loader(
-        DEVROOT+ "helpers.js",
-
-        AGENTROOT+ "DebuggerAgent.js",
-        AGENTROOT+ "InspectorAgent.js",
-        AGENTROOT+ "PageAgent.js",
-        AGENTROOT+ "TimelineAgent.js",
-        AGENTROOT+ "WorkerAgent.js",
-        AGENTROOT+ "RuntimeAgent.js",
-        AGENTROOT+ "ConsoleAgent.js",
-        AGENTROOT+ "ProfilerAgent.js",
-        AGENTROOT+ "DOMStorageAgent.js",
-        AGENTROOT+ "DOMAgent.js"
-    ).onload = function(){};
-    */
-
     // ブラウザにリロードを促す
     location.onreload = function(){
         notify( { method:"Inspector.reload", params:{} } );
@@ -1251,6 +1234,8 @@ helpers.describe = describe;
     var agents = {};
     function getAgent( key ){
         var name = key + "Agent";
+        if( !agents[name] && devtools.inspector[name] )
+            agents[name] = new devtools.inspector[name]( notify, v8Client );
         if( !agents[name] && window[name] ) agents[name] = new window[name]( notify, v8Client );
         if( !agents[name] ) console.log( name + " is not found!" );
         return agents[name];
@@ -1286,11 +1271,9 @@ helpers.describe = describe;
         });
 
     };
-
-
-
-
 })();
+
+
 (function(){
     var inspector = devtools.inspector;
     /**
@@ -1455,7 +1438,7 @@ helpers.describe = describe;
     */
     }).call( ConsoleAgent.prototype );
 
-    window.ConsoleAgent = ConsoleAgent;
+    devtools.inspector.ConsoleAgent = ConsoleAgent;
 })();
 
 
@@ -1496,7 +1479,6 @@ helpers.describe = describe;
 
         this.highlightObject = null;
     }
-    window.DOMAgent = DOMAgent;
 
     (function() {
 
@@ -1552,6 +1534,8 @@ helpers.describe = describe;
 
     }).call(DOMAgent.prototype);
 
+
+    devtools.inspector.DOMAgent = DOMAgent;
 
 
     /**
@@ -1701,6 +1685,9 @@ helpers.describe = describe;
 
 })();
 
+(function(){
+
+
 /**
  * DOMStorageAgent
  * @constructor
@@ -1772,6 +1759,12 @@ function DOMStorageAgent( notify ) {
 }).call(DOMStorageAgent.prototype);
 
 
+devtools.inspector.DOMStorageAgent = DOMStorageAgent;
+
+})();
+(function(){
+
+
 /**
  * DebuggerAgent
  * @constructor
@@ -1798,6 +1791,10 @@ function DebuggerAgent( notify ) {
 
 }).call(DebuggerAgent.prototype);
 
+devtools.inspector.DebuggerAgent = DebuggerAgent;
+
+})();
+(function(){
 
 /**
  *　インスペクター自体のAgent
@@ -1822,6 +1819,14 @@ InspectorAgent.prototype.disable = function(params, sendResult) {
 
     sendResult({result: this.enabled});
 };
+
+devtools.inspector.InspectorAgent = InspectorAgent;
+
+
+
+})();
+(function(){
+
 function PageAgent() {
     this.enabled = false;
 }
@@ -1860,6 +1865,10 @@ function PageAgent() {
     };
 }).call(PageAgent.prototype);
 
+devtools.inspector.PageAgent = PageAgent;
+
+})();
+(function(){
 
 //var v8debugger = require('v8-v8debugger');
 //var fs = require('fs');
@@ -2115,6 +2124,14 @@ function ProfilerAgent(notify) {
 }).call(ProfilerAgent.prototype);
 
 
+
+devtools.inspector.ProfilerAgent = ProfilerAgent;
+
+})();
+(function(){
+
+var helpers = devtools.inspector.helpers;
+
 // 本来のRuntimeAgentはブラウザ側にある。コレ自体はConsole.evaluateの委譲先として機能させている。
 // クロスプラットフォームで稼働中
 
@@ -2155,6 +2172,7 @@ var RemoteObject = function(object, forceValueType) {
     this.value = helpers.decycle(object);
 };
 
+devtools.inspector.RemoteObject = RemoteObject;
 
 var getPropertyDescriptors = function(object, ownProperties) {
     var descriptors = [];
@@ -2456,7 +2474,10 @@ RuntimeAgent.prototype.releaseObject = function(params, sendResult) {
 };
 
 
+devtools.inspector.RuntimeAgent = RuntimeAgent;
+})();
 
+(function(){
 
 function TimelineAgent( notify ) {
     this.notify = notify;
@@ -2521,6 +2542,12 @@ function TimelineAgent( notify ) {
 }).call(TimelineAgent.prototype);
 
 
+
+devtools.inspector.TimelineAgent = TimelineAgent;
+
+})();
+(function(){
+
 function WorkerAgent () {
 
 }
@@ -2529,3 +2556,7 @@ WorkerAgent.prototype = {
         sendResult({result: true});
     }
 };
+
+devtools.inspector.WorkerAgent = WorkerAgent;
+
+})();

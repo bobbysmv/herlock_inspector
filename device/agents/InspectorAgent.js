@@ -1,3 +1,5 @@
+(function(){
+
 /**
  *　インスペクター自体のAgent
  * @constructor
@@ -21,3 +23,9 @@ InspectorAgent.prototype.disable = function(params, sendResult) {
 
     sendResult({result: this.enabled});
 };
+
+devtools.inspector.InspectorAgent = InspectorAgent;
+
+
+
+})();

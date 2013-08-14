@@ -1,3 +1,4 @@
+(function(){
 
 function WorkerAgent () {
 
@@ -7,3 +8,7 @@ WorkerAgent.prototype = {
         sendResult({result: true});
     }
 };
+
+devtools.inspector.WorkerAgent = WorkerAgent;
+
+})();

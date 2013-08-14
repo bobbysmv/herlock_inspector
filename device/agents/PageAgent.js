@@ -1,3 +1,5 @@
+(function(){
+
 function PageAgent() {
     this.enabled = false;
 }
@@ -36,3 +38,6 @@ function PageAgent() {
     };
 }).call(PageAgent.prototype);
 
+devtools.inspector.PageAgent = PageAgent;
+
+})();

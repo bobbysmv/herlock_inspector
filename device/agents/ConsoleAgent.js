@@ -162,6 +162,6 @@
     */
     }).call( ConsoleAgent.prototype );
 
-    window.ConsoleAgent = ConsoleAgent;
+    devtools.inspector.ConsoleAgent = ConsoleAgent;
 })();
 

@@ -1,3 +1,5 @@
+(function(){
+
 //var v8debugger = require('v8-v8debugger');
 //var fs = require('fs');
 
@@ -251,3 +253,8 @@ function ProfilerAgent(notify) {
 
 }).call(ProfilerAgent.prototype);
 
+
+
+devtools.inspector.ProfilerAgent = ProfilerAgent;
+
+})();

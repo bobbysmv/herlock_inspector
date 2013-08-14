@@ -97,8 +97,10 @@ WebInspector.ProfilesPanel = function()
     this._profileTypesByIdMap = {};
     this._profileTypeButtonsByIdMap = {};
 
+
+    // TODO 文言の差し替え対応とか
     var panelEnablerHeading = WebInspector.UIString("You need to enable profiling before you can use the Profiles panel.");
-    var panelEnablerDisclaimer = WebInspector.UIString("Enabling profiling will make scripts run slower.");
+    var panelEnablerDisclaimer = WebInspector.UIString("This feature is only available for Android devices.");
     var panelEnablerButton = WebInspector.UIString("Enable Profiling");
     this.panelEnablerView = new WebInspector.PanelEnablerView("profiles", panelEnablerHeading, panelEnablerDisclaimer, panelEnablerButton);
     this.panelEnablerView.addEventListener("enable clicked", this._enableProfiling, this);

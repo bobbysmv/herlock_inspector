@@ -150,8 +150,9 @@ WebInspector.ScriptsPanel = function()
     this.sidebarPanes.scopechain.expanded = true;
     this.sidebarPanes.jsBreakpoints.expanded = true;
 
+    // TODO 文言の差し替え対応とか
     var panelEnablerHeading = WebInspector.UIString("You need to enable debugging before you can use the Scripts panel.");
-    var panelEnablerDisclaimer = WebInspector.UIString("Enabling debugging will make scripts run slower.");
+    var panelEnablerDisclaimer = WebInspector.UIString("This feature is only available for Android devices.");
     var panelEnablerButton = WebInspector.UIString("Enable Debugging");
 
     this.panelEnablerView = new WebInspector.PanelEnablerView("scripts", panelEnablerHeading, panelEnablerDisclaimer, panelEnablerButton);

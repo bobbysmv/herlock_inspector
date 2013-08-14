@@ -58,6 +58,7 @@ WebInspector.PanelEnablerView = function(identifier, headingText, disclaimerText
         return option;
     };
 
+    // TODO 文言の差し替え対応とか
     this.enabledForSession = enableOption(WebInspector.UIString("Only enable for this session"), true);
     this.enabledAlways = enableOption(WebInspector.UIString("Always enable"));
 

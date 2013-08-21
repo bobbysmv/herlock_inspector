@@ -1190,7 +1190,7 @@ WebInspector.DataGridNode.prototype = {
         return cell;
     },
 
-    // Share these functions with DataGrid. They are written to work with a DataGridNode this object.
+    // Share these functions with DataGrid. They are written to artwork with a DataGridNode this object.
     appendChild: WebInspector.DataGrid.prototype.appendChild,
     insertChild: WebInspector.DataGrid.prototype.insertChild,
     removeChild: WebInspector.DataGrid.prototype.removeChild,

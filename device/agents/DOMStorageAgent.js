@@ -15,10 +15,10 @@ function DOMStorageAgent( notify ) {
 (function(){
 
     this.notifyAddDOMStorage = function( storage ) {
-        this.notify({ method: 'DOMStorage.addDOMStorage', params: { storage: storage }});
+        this.notify({ method: "DOMStorage.addDOMStorage", params: { storage: storage }});
     };
     this.notifyUpdateDOMStorage = function( storageId ) {
-        this.notify({ method: 'DOMStorage.updateDOMStorage', params: { storageId: storageId }});
+        this.notify({ method: "DOMStorage.updateDOMStorage", params: { storageId: storageId }});
     };
 
     this.enable = function(params, sendResult) {

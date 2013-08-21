@@ -260,9 +260,9 @@ WebInspector.Resource.prototype = {
         // network stack performed decoding (e.g. gzip decompression).
         // The Content-Length, though, is expected to come from raw
         // response headers and will reflect actual transfer length.
-        // This won't work for chunked content encoding, so fall back to
+        // This won't artwork for chunked content encoding, so fall back to
         // resourceSize when we don't have Content-Length. This still won't
-        // work for chunks with non-trivial encodings. We need a way to
+        // artwork for chunks with non-trivial encodings. We need a way to
         // get actual transfer size from the network stack.
         var bodySize = Number(this.responseHeaders["Content-Length"] || this.resourceSize);
         return this.responseHeadersSize + bodySize;

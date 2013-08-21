@@ -184,7 +184,7 @@ WebInspector.Panel.prototype = {
         var boundFinishedCallback = finishedCallback.bind(this);
         var chunkIntervalIdentifier = null;
 
-        // Split up the work into chunks so we don't block the
+        // Split up the artwork into chunks so we don't block the
         // UI thread while processing.
 
         function processChunk()

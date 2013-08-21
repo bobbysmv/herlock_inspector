@@ -17,22 +17,25 @@
         this.enabled = false;
         this.messages = [];
 
-        var nativeConsole = console;
         var self = this;
 
-        [ 'log', 'warn', 'info', 'error', 'dir'].forEach( function(level) {
-            var ref = console[level];
+        var nativeConsole = console;
+        var nativeConsoleMethods = { "log": console.log, "warn": console.warn, "info": console.info, "error": console.error, "dir": console.dir };
+
+        [ "log", "warn", "info", "error", "dir"].forEach( function(level) {
+            var ref = nativeConsoleMethods[level];
             if(!ref)return;
             console[level] = ( function(){
+                // 無限ループした
                 ref.apply( nativeConsole, arguments);
 
                 var message = {
-                    method: 'Console.messageAdded',
+                    method: "Console.messageAdded",
                     params: {
                         message: {
                             text: formatedString.apply(self,arguments),
-                            level: level == 'warn' ? 'warning' : level,
-                            source: 'javascript'
+                            level: level == "warn" ? "warning" : level,
+                            source: "javascript"
                         }
                     }
                 };
@@ -40,7 +43,7 @@
                 //TODO make it aware of RemoteObjects so
                 //that the console in the frontend can show us its shinny
                 //dropdown
-                /*if (level == 'dir') {
+                /*if (level == "dir") {
                  message.params.message.type = level;
                  }*/
 
@@ -63,7 +66,7 @@
 
             if( app.isANDROID ) {
                 message = {
-                    method: 'Console.messageAdded',
+                    method: "Console.messageAdded",
                     params: {
                         message: {
                             type: "uncaughtException",
@@ -78,7 +81,7 @@
             }
             if( app.isIOS ) {
                 message = {
-                    method: 'Console.messageAdded',
+                    method: "Console.messageAdded",
                     params: {
                         message: {
                             type: "uncaughtException",
@@ -126,7 +129,7 @@
             sendResult({});
 
             // TODO Console 連携
-            this.notify({method: 'Console.messagesCleared'},false);
+            this.notify({method: "Console.messagesCleared"},false);
         };
 
         // Console上でのscript実行

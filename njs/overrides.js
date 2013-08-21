@@ -180,7 +180,7 @@ WebInspector.doLoadedDone = function()
 
 /* custom event */
 WebInspector.reload = function() {
-    setTimeout( function(){ location.reload(); }, 3000 );
+    setTimeout( function(){ location.reload(); }, 500 );
 };
 
 

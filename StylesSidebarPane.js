@@ -1565,7 +1565,7 @@ WebInspector.StylePropertyTreeElement.prototype = {
 
         function nameValueFinishHandler(context, isEditingName, event)
         {
-            // FIXME: the ":"/";" detection does not work for non-US layouts due to the event being keydown rather than keypress.
+            // FIXME: the ":"/";" detection does not artwork for non-US layouts due to the event being keydown rather than keypress.
             var isFieldInputTerminated = (event.keyCode === WebInspector.KeyboardShortcut.Keys.Semicolon.code) &&
                 (isEditingName ? event.shiftKey : (!event.shiftKey && shouldCommitValueSemicolon(event.target.textContent, event.target.selectionLeftOffset)));
             if (isEnterKey(event) || isFieldInputTerminated) {

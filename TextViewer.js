@@ -1492,7 +1492,7 @@ WebInspector.TextEditorMainPanel.prototype = {
                 endLine = lineRow.lineNumber;
                 break;
             }
-            // Update with the newest lineNumber, so that the call to the _getSelection method below should work.
+            // Update with the newest lineNumber, so that the call to the _getSelection method below should artwork.
             lineRow.lineNumber = startLine + lines.length;
             this._collectLinesFromDiv(lines, lineRow);
         }

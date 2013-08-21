@@ -1,6 +1,6 @@
 (function(){
 
-//var underscore = require('underscore');
+//var underscore = require("underscore");
 
 var helpers = new function(){
     this.isArray = function( obj ){ return obj instanceof Array };
@@ -35,7 +35,7 @@ var subtype = function(obj) {
     if (helpers.isRegExp(obj)) return "regexp";
     if (helpers.isDate(obj)) return "date";
 
-    // FireBug's array detection.
+    // FireBug"s array detection.
     try {
         if (Object.prototype.toString.call(obj) === "[object Arguments]" &&
             isFinite(obj.length)) {
@@ -54,11 +54,11 @@ var describe = function(obj) {
 
     var subtype = helpers.subtype(obj);
 
-    if (subtype === "regexp") return '' + obj;
-    if (subtype === "date") return '' + obj;
+    if (subtype === "regexp") return "" + obj;
+    if (subtype === "date") return "" + obj;
 
     if (subtype === "array") {
-        var className = 'array ';
+        var className = "array ";
         if (typeof obj.length === "number")
             className += "[" + obj.length + "]";
         return className;
@@ -73,11 +73,11 @@ var describe = function(obj) {
         if (constructorName)
             return constructorName;
     }
-    return '' + obj;
+    return "" + obj;
 };
 
 var decycle = function(object) {
-    'use strict';
+    "use strict";
 
 //Taken from https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
 
@@ -91,7 +91,7 @@ var decycle = function(object) {
 //      var a = [];
 //      a[0] = a;
 //      return JSON.stringify(JSON.decycle(a));
-// produces the string '[{"$ref":"$"}]'.
+// produces the string "[{"$ref":"$"}]".
 
 // JSONPath is used to locate the unique object. $ indicates the top level of
 // the object or array. [NUMBER] or [STRING] indicates a child member or
@@ -109,9 +109,9 @@ var decycle = function(object) {
             nu;         // The new object or array
 
         switch (typeof value) {
-            case 'object':
+            case "object":
 
-// typeof null === 'object', so get out if this value is not really an object.
+// typeof null === "object", so get out if this value is not really an object.
 
                 if (!value) {
                     return null;
@@ -134,10 +134,10 @@ var decycle = function(object) {
 
 // If it is an array, replicate the array.
 
-                if (Object.prototype.toString.apply(value) === '[object Array]') {
+                if (Object.prototype.toString.apply(value) === "[object Array]") {
                     nu = [];
                     for (i = 0; i < value.length; i += 1) {
-                        nu[i] = derez(value[i], path + '[' + i + ']');
+                        nu[i] = derez(value[i], path + "[" + i + "]");
                     }
                 } else {
 
@@ -147,17 +147,17 @@ var decycle = function(object) {
                     for (name in value) {
                         if (Object.prototype.hasOwnProperty.call(value, name)) {
                             nu[name] = derez(value[name],
-                                path + '[' + JSON.stringify(name) + ']');
+                                path + "[" + JSON.stringify(name) + "]");
                         }
                     }
                 }
                 return nu;
-            case 'number':
-            case 'string':
-            case 'boolean':
+            case "number":
+            case "string":
+            case "boolean":
                 return value;
         }
-    }(object, '$'));
+    }(object, "$"));
 };
 
 //helpers.mixin({ decycle: decycle });

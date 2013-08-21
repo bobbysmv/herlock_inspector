@@ -52,7 +52,7 @@ WebInspector.TextEditorHighlighter.prototype = {
 
     highlight: function(endLine, opt_forceRun)
     {
-        // First check if we have work to do.
+        // First check if we have artwork to do.
         var state = this._textModel.getAttribute(endLine - 1, "highlight");
         if (state && state.postConditionStringified) {
             // Last line is highlighted, just exit.
@@ -115,7 +115,7 @@ WebInspector.TextEditorHighlighter.prototype = {
     {
         delete this._highlightTimer;
 
-        // First we always check if we have work to do. Could be that user scrolled back and we can quit.
+        // First we always check if we have artwork to do. Could be that user scrolled back and we can quit.
         var state = this._textModel.getAttribute(this._requestedEndLine - 1, "highlight");
         if (state && state.postConditionStringified)
             return;
@@ -174,7 +174,7 @@ WebInspector.TextEditorHighlighter.prototype = {
                 postConditionStringified = JSON.stringify(this._tokenizer.condition);
 
                 if (lastHighlightedColumn < line.length) {
-                    // Too much work for single chunk - exit.
+                    // Too much artwork for single chunk - exit.
                     state.lastHighlightedColumn = lastHighlightedColumn;
                     state.midConditionStringified = postConditionStringified;
                     break;

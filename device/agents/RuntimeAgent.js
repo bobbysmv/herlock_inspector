@@ -37,7 +37,7 @@ var RemoteObject = function(object, forceValueType) {
     var subtype = helpers.subtype(object);
     if (subtype) this.subtype = subtype;
 
-    this.className = object.constructor || object.name || '';
+    this.className = object.constructor || object.name || "";
     this.description = helpers.describe(object);
     this.value = helpers.decycle(object);
 };
@@ -130,7 +130,7 @@ RuntimeAgent.prototype.evaluateOn = function(params, sendResult) {
         //result = eval.call( global, "with ({}) {\n" + params.expression + "\n}");
         // TODO コレではDisplayTreeからオブジェクトのプロパティリストが取れない
         result = eval.call( global,
-            "( function() {" + params.expression + "} ).call( devtools.inspector.getAgent('Runtime').getObjectByRemoteId( '"+params.objectId+"') );"
+            "( function() {" + params.expression + "} ).call( devtools.inspector.getAgent(\"Runtime\").getObjectByRemoteId( \""+params.objectId+"\") );"
         );
 
 
@@ -152,7 +152,7 @@ RuntimeAgent.prototype.setPropertyValue = function(params, sendResult) {
     if( object && ( params.name in object ) ) {
         object[params.name] = params.value;//TODO valueはexpressionとして評価
         eval.call( global,
-            "( function() { this." + params.name + " = " + params.value + "; } ).call( devtools.inspector.getAgent('Runtime').getObjectByRemoteId( '"+params.objectId+"') );"
+            "( function() { this." + params.name + " = " + params.value + "; } ).call( devtools.inspector.getAgent(\"Runtime\").getObjectByRemoteId( \""+params.objectId+"\") );"
         );
     }
 
@@ -163,7 +163,7 @@ RuntimeAgent.prototype.getProperties = function(params, sendResult) {
     var object = this.objects[params.objectId];
 
     if (helpers.isUndefined(object)) {
-        console.error('RuntimeAgent.getProperties: Unknown object');
+        console.error("RuntimeAgent.getProperties: Unknown object");
         return;
     }
 
@@ -253,7 +253,7 @@ RuntimeAgent.prototype.getObjectByRemoteId = function( id ) {
 RuntimeAgent.prototype.createThrownValue = function(value, objectGroup) {
     var remoteObject = this.wrapObject(value, objectGroup);
     try {
-        remoteObject.description = '' + value;
+        remoteObject.description = "" + value;
     } catch (e) {}
 
     return {
@@ -272,7 +272,7 @@ RuntimeAgent.prototype.callFunctionOn = function(params, sendResult) {
     var object = this.objects[params.objectId];
 
     if (helpers.isUndefined(object)) {
-        console.error('RuntimeAgent.callFunctionOn: Unknown object');
+        console.error("RuntimeAgent.callFunctionOn: Unknown object");
         return;
     }
 
@@ -287,7 +287,7 @@ RuntimeAgent.prototype.callFunctionOn = function(params, sendResult) {
             if (objectId) {
                 var resolvedArg = this.objects[objectId];
                 if (!resolvedArg) {
-                    console.error('RuntimeAgent.callFunctionOn: Unknown object');
+                    console.error("RuntimeAgent.callFunctionOn: Unknown object");
                     return;
                 }
 
@@ -304,8 +304,8 @@ RuntimeAgent.prototype.callFunctionOn = function(params, sendResult) {
     try {
         var func = eval.call(global, ("(" + params.functionDeclaration + ")"));
         if (typeof func !== "function") {
-            console.error('RuntimeAgent.callFunctionOn: Expression does ' +
-                'not evaluate to a function');
+            console.error("RuntimeAgent.callFunctionOn: Expression does " +
+                "not evaluate to a function");
             return;
         }
 

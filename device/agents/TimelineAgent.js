@@ -27,13 +27,13 @@ function TimelineAgent( notify ) {
         var memory = app.memory;
 
         this.notify({
-            method: 'Timeline.eventRecorded',
+            method: "Timeline.eventRecorded",
             params: {
                 record: {
                     startTime: Date.now(),
                     endTime: Date.now(),
-                    data: { 'message': message || '' },
-                    type: "Memory",//'TimeStamp',
+                    data: { "message": message || "" },
+                    type: "Memory",//"TimeStamp",
                     usedHeapSize: memory.used,
                     totalHeapSize: memory.total
                 }

@@ -1,10 +1,8 @@
 (function(){
 
-//var v8debugger = require('v8-v8debugger');
-//var fs = require('fs');
 
-var HeapProfileType = 'HEAP';
-var CPUProfileType  = 'CPU';
+var HeapProfileType = "HEAP";
+var CPUProfileType  = "CPU";
 
 function ProfilerAgent(notify) {
     this.notify = notify;
@@ -29,7 +27,7 @@ function ProfilerAgent(notify) {
         if( !this.enabled ) return;
 
         this.notify( {
-            method: 'Profiler.profilerWasEnabled',
+            method: "Profiler.profilerWasEnabled",
             params: {}
         });
     };
@@ -71,7 +69,7 @@ function ProfilerAgent(notify) {
         /*
         var snapshot = inspector.v8debugger.takeSnapshot(function(done, total) {
             self.notify({
-                method: 'Profiler.reportHeapSnapshotProgress',
+                method: "Profiler.reportHeapSnapshotProgress",
                 params:{
                     done: done,
                     total: total
@@ -82,7 +80,7 @@ function ProfilerAgent(notify) {
         var snapshot = inspector.v8debugger.takeSnapshot( "njs_snapshot_" + this.snapshotCnt++ );
         /*
          self.notify({
-             method: 'Profiler.reportHeapSnapshotProgress',
+             method: "Profiler.reportHeapSnapshotProgress",
              params:{
                  done: done,
                  total: total
@@ -93,7 +91,7 @@ function ProfilerAgent(notify) {
         this.profiles[HeapProfileType][snapshot.uid] = snapshot;
 
         this.notify({
-            method: 'Profiler.addProfileHeader',
+            method: "Profiler.addProfileHeader",
             params: {
                 header: {
                     title: snapshot.title,
@@ -112,9 +110,9 @@ function ProfilerAgent(notify) {
 
         snapshot.serialize(
             function onData(chunk, size) {
-                chunk = chunk + '';
+                chunk = chunk + "";
                 self.notify({
-                    method: 'Profiler.addHeapSnapshotChunk',
+                    method: "Profiler.addHeapSnapshotChunk",
                     params: {
                         uid: snapshot.uid,
                         chunk: chunk
@@ -124,7 +122,7 @@ function ProfilerAgent(notify) {
 
             function onEnd() {
                 self.notify({
-                    method: 'Profiler.finishHeapSnapshot',
+                    method: "Profiler.finishHeapSnapshot",
                     params: {uid: snapshot.uid}
                 });
 
@@ -140,14 +138,14 @@ function ProfilerAgent(notify) {
 
         /*
         self.notify({
-            method: 'Profiler.addHeapSnapshotChunk',
+            method: "Profiler.addHeapSnapshotChunk",
             params: {
                 uid: snapshot.uid,
                 chunk: snapshot.serialize()
             }
         });
         self.notify({
-            method: 'Profiler.finishHeapSnapshot',
+            method: "Profiler.finishHeapSnapshot",
             params: {uid: snapshot.uid}
         });
         sendResult({
@@ -204,7 +202,7 @@ function ProfilerAgent(notify) {
         inspector.v8debugger.startProfiling( this.currentProfileName );
 
         this.notify({
-            method: 'Profiler.setRecordingProfile',
+            method: "Profiler.setRecordingProfile",
             params: {
                 isProfiling: true
             }
@@ -220,7 +218,7 @@ function ProfilerAgent(notify) {
         this.profiles[CPUProfileType][profile.uid] = profile;
 
         this.notify({
-            method: 'Profiler.addProfileHeader',
+            method: "Profiler.addProfileHeader",
             params: {
                 header: {
                     title: profile.title,
@@ -231,7 +229,7 @@ function ProfilerAgent(notify) {
         });
 
         this.notify({
-            method: 'Profiler.setRecordingProfile',
+            method: "Profiler.setRecordingProfile",
             params: {
                 isProfiling: false
             }
@@ -241,13 +239,7 @@ function ProfilerAgent(notify) {
     };
 
     this.collectGarbage = function(params, sendResult) {
-        if (typeof gc === 'function') {
-            gc();
-        } else {
-            console.warn('ProfilerAgent: ' +
-                'you need to run your nodejs app using --expose_gc ' +
-                'in order to `"force`" garbage collection.');
-        }
+        app.gc();
         sendResult({});
     };
 

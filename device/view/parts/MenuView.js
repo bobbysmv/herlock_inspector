@@ -116,7 +116,7 @@
                     menuButton.offset( this._handle.container.width + w * (xi+0.5) / (len/rows+0), height * ( (1+yi)/(1+rows) ) );
                 }
 
-                this._handle.setArea(0, width - this._handle.container.width );
+                this._handle.setArea(0, w );
                 this._movableContainer.x = this._handle.offsetPercent * this._handle.area.size;
 
             } else {

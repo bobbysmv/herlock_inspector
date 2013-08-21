@@ -57,8 +57,10 @@
 
         var nativeOnUncaughtError = window.onUncaughtError;
         window.onUncaughtError = function( err ) {
+
             if(nativeOnUncaughtError) nativeOnUncaughtError.apply( window, arguments );
 
+            //console.log("error");
             //
             //for( var k in err ) console.log( "  "+k+": "+err[k] );
 

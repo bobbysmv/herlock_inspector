@@ -18,7 +18,7 @@
                 { name: "execute gc", icon: ns.artwork.gc, message: "executeGC", func: function(){ app.gc(); } },
                 { name: "reload", icon: ns.artwork.reload, message: "reload", func: function(){ location.reload(); } },
                 { name: "change project", icon: ns.artwork.change, message: "changeProject", func: function(){ app.sendMessage("changeProject");} },
-                { name: "logout", icon: ns.artwork.logout, message: "logout", func: function(){ app.sendMessage("logout");} }
+                { name: "logout", icon: ns.artwork.logout, message: "logout", func: function(){ console.log("logout");app.sendMessage("logout");} }
             ];
 
             //

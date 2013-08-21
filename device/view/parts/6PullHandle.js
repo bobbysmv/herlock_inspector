@@ -143,7 +143,8 @@
                         this.tracking.ave.y = this.tracking.ave.y/2 + this.tracking.vec.y/2;
 
                         var tmp = this.offsetPercent;
-                        tmp += this.tracking.vec.x / this.area.size;
+                        //tmp += this.tracking.vec.x / this.area.size;
+                        tmp += this.tracking.vec.x / window.innerWidth * this.container.stage.stageWidth / this.area.size;
                         tmp = tmp>1? 1: tmp<0? 0: tmp;
 
 
@@ -251,7 +252,7 @@
                         this.tracking.ave.y = this.tracking.ave.y/2 + this.tracking.vec.y/2;
 
                         var tmp = this.offsetPercent;
-                        tmp += this.tracking.vec.x / this.area.size;
+                        tmp += this.tracking.vec.x / window.innerWidth * this.container.stage.stageWidth / this.area.size;
                         //
                         tmp = tmp>1? 1: tmp<0? 0: tmp;
 

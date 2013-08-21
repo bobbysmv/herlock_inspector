@@ -56,7 +56,6 @@
     var nativeOnUncaughtError = window.onUncaughtError;
 
 
-
     ns.InspectorView = ns.Class( ns.Context, {
 
         initialize: { value: function() {
@@ -108,7 +107,9 @@
             // prepare..
             var self = this;
             console.log = function(){ self.log.apply( self, arguments ); };
-            window.onUncaughtError = function(){ self._onUncaughtError.apply( self, arguments );};
+            window.onUncaughtError = function(){
+                self._onUncaughtError.apply( self, arguments );
+            };
 
             //
             this._handle.onChangeValue = function(value){
@@ -274,8 +275,8 @@
 
         _onUncaughtError:{ value: function(e){
             this.message( "error", e );
-            this.show();
-            nativeOnUncaughtError.apply( window, arguments );
+            this._handle.open();
+            if(nativeOnUncaughtError)nativeOnUncaughtError.apply( window, arguments );
         }},
 
         _layOut: { value: function(){

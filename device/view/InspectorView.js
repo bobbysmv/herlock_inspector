@@ -311,7 +311,7 @@
                 this.subPanel.offset( height-25 + borderWidth, 0 ).resize( width - (height-25 + borderWidth), height );
                 this._handle.offset( 0, height/2 );
 
-                this._handle.setArea(0, window.innerWidth);
+                this._handle.setArea(0, width );//window.innerWidth);
             } else {
                 // 縦向き
                 var width = 640 * 2/3;
@@ -330,7 +330,7 @@
                 this.subPanel.offset( 0, width+25 ).resize( width, height-(width+25) );
                 this._handle.offset( 0, height/2 );
 
-                this._handle.setArea(0, window.innerWidth);
+                this._handle.setArea(0, width );
             }
 
             this.offset = this.offset;

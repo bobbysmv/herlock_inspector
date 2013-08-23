@@ -47,7 +47,13 @@ var NativeJSAgentSocket = function( host, port ) {
 }
 NativeJSAgentSocket.prototype = new window.events.EventEmitter();
 NativeJSAgentSocket.prototype.send = function (data) {
-    if( this._ws.send(data) !== true) throw new Error("NativeJSAgentSocket send");
+
+    try{
+        this._ws.send(data);
+    } catch(e) {
+        throw e;
+    }
+
 };
 NativeJSAgentSocket.prototype.close = function () {
     this._ws.close();

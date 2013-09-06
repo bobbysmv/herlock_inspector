@@ -151,6 +151,19 @@
                 : []
         }
     };
+    Image.prototype.toNode = function(){
+        var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );
+        return {
+            id : remote.objectId,
+            nodeType : Node.ELEMENT_NODE,
+            nodeName : "Image",
+            localName : "Image",
+            nodeValue : "",
+            attributes : this.src? [ "src", this.src ] : [],
+            childNodeCount : 0,
+            children : []
+        }
+    };
     DisplayObject.prototype.toNode = function(){
         app.nativeLog("DisplayObject.prototype.toNode");
         var remote = inspector.getAgent("Runtime").wrapObject( this, "DOM" );

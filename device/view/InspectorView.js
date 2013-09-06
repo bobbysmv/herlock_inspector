@@ -170,7 +170,7 @@
             });
 
             //
-            window.addEventListener( 'orientationchange', ( this._onOrientationChange = function(){ setTimeout(function(){self._layOut();},1000); } ) );
+            window.addEventListener( 'resize', ( this._onOrientationChange = function(){ self._layOut();/*setTimeout(function(){self._layOut();},1000); */} ) );
             this._stage.addEventListener( 'enterFrame',( this._onEnterFrame = function(e){ self._sendEnterFrameMessage(e); } ) );
 
             // init

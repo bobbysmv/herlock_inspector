@@ -27,7 +27,6 @@ var NativeJSAgentSocket = function( host, port ) {
             self._ws = this;
             flg = false;
 
-
             ws.onclose = function(){ self.onclose.apply(self,arguments); /*tryConnecting();*/ }
             ws.onerror = function(){ self.onerror.apply(self,arguments); /*tryConnecting();*/ }
             ws.onmessage = function(m){

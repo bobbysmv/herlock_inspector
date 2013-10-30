@@ -24,7 +24,7 @@
             this.label_mem100 = new TextField();
             this.label_mem100.defaultTextFormat = new TextFormat(null,15,0xff0000);
             this.label_mem100.autoSize = 'left';
-            this.label_mem100.text = 'mem:0%';
+            this.label_mem100.text = 'mem: m% n / nKB';
             this.container.addChild( this.label_mem100 );
 
             this.label_doc = new TextField();
@@ -98,7 +98,7 @@
                 //  mem
                 var mem = app.memory;
                 this.items.memory.data.push( { used:mem.used, total: mem.total} );
-                this.label_mem100.text = "mem:" + Math.ceil( mem.used / mem.total * 100 ) + "%";
+                this.label_mem100.text = "mem: "+ Math.ceil( mem.used / mem.total *100) +"% " + (Math.round(mem.used/(1024*1024))/1) +" / "+ (Math.round(mem.total/(1024*1024))/1) + "MB";
                 //  doc
                 var doc = devtools.getDisplayObjectCount();
                 this.label_doc.text = "doc:" + doc;

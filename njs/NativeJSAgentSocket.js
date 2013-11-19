@@ -18,7 +18,7 @@ var NativeJSAgentSocket = function( host, port ) {
             if(ws){ ws.close(); ws = ws.onopen = ws.onclose = ws.onerror = ws.onmessage = null; }
             timer = -1;
             tryConnecting();
-        }, 3000 );
+        }, 10000 );
         if(self._ws){ self._ws.close(); self._ws = self._ws.onopen = self._ws.onclose = self._ws.onerror = self._ws.onmessage = null; }
         var ws = new WebSocket( "ws://"+host+":"+(port||8081) );
         ws.onopen = function(){

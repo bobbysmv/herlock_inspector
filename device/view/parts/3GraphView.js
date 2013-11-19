@@ -22,14 +22,18 @@
             this.container.addChild( this.label_fps30 );
 
             this.label_mem100 = new TextField();
-            this.label_mem100.defaultTextFormat = new TextFormat(null,15,0xff0000);
-            this.label_mem100.autoSize = 'left';
+            this.label_mem100.defaultTextFormat = new TextFormat(null,15,0xff0000,null,null,null,null,null,"right");
+//            this.label_mem100.autoSize = 'left';
+            this.label_mem100.width = 200;
+            this.label_mem100.height = 20;
             this.label_mem100.text = 'mem: m% n / nKB';
             this.container.addChild( this.label_mem100 );
 
             this.label_doc = new TextField();
             this.label_doc.defaultTextFormat = new TextFormat(null,15,0xffffff);
-            this.label_doc.autoSize = 'left';
+            //this.label_doc.autoSize = 'left';
+            this.label_doc.width = 100;
+            this.label_doc.height = 20;
             this.label_doc.text = 'doc:0';
             this.container.addChild( this.label_doc );
 

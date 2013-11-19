@@ -146,12 +146,13 @@
         onUncaughtError: { value:function(){
             var err = arguments[0];
             var message = '';
-            if( app.isANDROID ) {
+            if( err.stack ) {
+                // V8
                 message += err.message;
                 if( err.stack ) message = err.stack;
                 //if( err.__stacktrace ) message += ' ' + JSON.stringify( err.__stacktrace );
-            }
-            if( app.isIOS ) {
+            } else {
+                // JSC
                 message += err.message;
                 message += ' url:' + err.sourceURL + ' line:' + err.line;
             }

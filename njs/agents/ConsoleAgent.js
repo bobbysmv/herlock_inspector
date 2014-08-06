@@ -107,7 +107,7 @@ window.ConsoleAgentCreate;
                     // objectGroup console, completion
 
                     function evaluateCallback ( error, result ) {
-                        console.log( JSON.stringify( result ) );
+                        //console.log( JSON.stringify( result ) );
                         callback(error, result);
                     }
                     var id = InspectorBackend.registerCallbackAndIssueId( "Console.evaluate", evaluateCallback );
@@ -120,7 +120,7 @@ window.ConsoleAgentCreate;
                 value: function( objectId, ownProperties, callback ) {
 
                     function evaluateCallback ( error, result ) {
-                        console.log( JSON.stringify( result ) );
+//                        console.log( JSON.stringify( result ) );
                         callback(error, result);
                     }
                     var id = InspectorBackend.registerCallbackAndIssueId( "Console.getProperties", evaluateCallback );

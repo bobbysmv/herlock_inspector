@@ -32,14 +32,14 @@ module.exports = function(grunt) {
                     // Destination: Sources...
                     "output/devtools.js": js_src
                 },
-//                options: {
-//                    // Any options supported by Closure Compiler, for example:
-//                    "compilation_level": "WHITESPACE_ONLY" //"SIMPLE_OPTIMIZATIONS"
-//                    , "formatting": "pretty_print"
-//                }
                 options: {
-                    "compilation_level": "SIMPLE_OPTIMIZATIONS"
+                    // Any options supported by Closure Compiler, for example:
+                    "compilation_level": "WHITESPACE_ONLY" //"SIMPLE_OPTIMIZATIONS"
+                    , "formatting": "pretty_print"
                 }
+//                options: {
+//                    "compilation_level": "SIMPLE_OPTIMIZATIONS"
+//                }
             }
         },
 

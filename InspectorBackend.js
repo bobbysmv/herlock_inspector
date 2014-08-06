@@ -156,8 +156,18 @@ InspectorBackendClass.prototype = {
 
     dispatch: function(message)
     {
-        if (this.dumpInspectorProtocolMessages)
-            console.log("backend: " + ((typeof message === "string") ? message : JSON.stringify(message)));
+        if (this.dumpInspectorProtocolMessages) {
+
+            var log = message;
+            if(typeof log === "string")
+                log = JSON.parse(log);
+
+            var msg = {};
+            if( log.id ) msg.id = log.id;
+            if( log.method ) msg.method = log.method;
+            if( log.result ) msg.result = "...";
+            console.log("backend: " + JSON.stringify( msg ) );
+        }
 
         var messageObject = (typeof message === "string") ? JSON.parse(message) : message;
 

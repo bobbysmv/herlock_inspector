@@ -160,6 +160,56 @@ var decycle = function(object) {
     }(object, "$"));
 };
 
+
+decycle = function(object) {
+    "use strict";
+
+    var objects = [];
+    var paths = [];
+
+    function derez(value, path, nonspread ) {
+
+        var i,          // The loop counter
+            name,       // Property name
+            nu;         // The new object or array
+
+        switch (typeof value) {
+            case "object":
+
+                if (!value) return null;
+
+                for (i = 0; i < objects.length; i += 1)
+                    if (objects[i] === value)
+                        return { $ref: paths[i] };
+
+                objects.push(value);
+                paths.push(path);
+
+                if( nonspread ) return {};
+
+                if ( Object.prototype.toString.apply(value) === "[object Array]" ) {
+                    nu = [];
+                    for (i = 0; i < value.length; i += 1)
+                        nu[i] = derez( value[i], path + "[" + i + "]", true );
+                } else {
+
+                    nu = {};
+                    for ( name in value )
+                        if (Object.prototype.hasOwnProperty.call(value, name))
+                            nu[name] = derez( value[name], path + "[" + JSON.stringify(name) + "]", true );
+                }
+                return nu;
+            case "number":
+            case "string":
+            case "boolean":
+                return value;
+        }
+
+    }
+
+    return derez(object, "$");
+};
+
 //helpers.mixin({ decycle: decycle });
 helpers.decycle = decycle;
 //helpers.mixin({ describe: describe });

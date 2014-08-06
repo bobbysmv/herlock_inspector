@@ -162,7 +162,7 @@ RuntimeAgent.prototype.setPropertyValue = function(params, sendResult) {
 RuntimeAgent.prototype.getProperties = function(params, sendResult) {
     var object = this.objects[params.objectId];
 
-    if (helpers.isUndefined(object)) {
+    if ( helpers.isUndefined( object ) ) {
         console.error("RuntimeAgent.getProperties: Unknown object");
         return;
     }
